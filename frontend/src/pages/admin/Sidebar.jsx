@@ -19,13 +19,18 @@ const Sidebar = () => {
                 <p className='text-[10px] font-exstrabold leading-[16px] text-white/[0.4]'> List</p>
                 <div className='flex items-center justify-between gap-[10px] py-[15px] cursor-pointer'>
                     <div className='flex items-center gap-[10px]'>
-                        <IoMdPerson color='white' /> <p className='text-[14px] leading-[20px] font-normal text-white'>Components</p>
+                    <MdOutlineShoppingCart color='white' />
+
+                        <Link to={"admin/product"} className='text-[14px] leading-[20px] font-normal text-white'>Product</Link>
+
                     </div>
                     <IoIosArrowForward color='white' />
                 </div>
                 <div className='flex items-center justify-between gap-[10px] py-[15px] cursor-pointer'>
                     <div className='flex items-center gap-[10px]'>
-                        <MdOutlineShoppingCart color='white' />
+                    
+                    <IoMdPerson color='white' />
+
                          <Link to={"admin/client"} className='text-[14px] leading-[20px] font-normal text-white'>Client</Link>
                     </div>
                     <IoIosArrowForward color='white' />

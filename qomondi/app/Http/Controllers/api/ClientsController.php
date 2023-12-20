@@ -61,8 +61,15 @@ class ClientsController extends Controller
      * @param \App\Models\User                     $user
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateUserRequest $request,  $id)
+    
     {
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+        
         $data = $request->validated();
         if (isset($data['password'])) {
             $data['password'] = bcrypt($data['password']);
@@ -78,8 +85,14 @@ class ClientsController extends Controller
      * @param \App\Models\User $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(user $user)
-    {
+    public function destroy($id)
+    {     
+        $user = User::find($id);
+        if(!$user){
+        return response("error", 401);
+            
+        }
+
         $user->delete();
 
         return response("", 204);
@@ -87,9 +100,24 @@ class ClientsController extends Controller
 
     public function GetClients()
     {
-        $clients = User::role('user');
+        $clients = User::whereHas('roles', function ($query) {
+        $query->where('name', 'user');
+    })->get();
+
         return response()->json(UserResource::collection($clients));
     }
+
+    
+    public function GetClient($id)
+{
+  $client = User::find($id) ;
+  if (!$client) {
+    return response()->json(['error' => 'Client not found'], 404);
+}
+
+return response()->json(new UserResource($client));
+ 
+}
 
     // public function options()
     // {

@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\api\ClientsController;
 
 /*
@@ -18,7 +19,13 @@ use App\Http\Controllers\api\ClientsController;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [UserController::class, 'logout']);
-    Route::apiResource('/users', ClientsController::class);
+    Route::put('/updateClient/{id}', [ClientsController::class , 'update']);
+    Route::post('/GetClient', [ClientsController::class , 'store']);
+        Route::get('/GetClients', [ClientsController::class ,'GetClients']);
+    Route::get('/GetClient/{id}', [ClientsController::class ,'GetClient']);
+    Route::delete('/deleteClient/{id}', [ClientsController::class ,'destroy']);
+
+    Route::get('/getProducts' , [ProductsController::class ,'index']);
 });
 
 Route::post('login', [UserController::class, "login"]);
@@ -38,7 +45,7 @@ Route::post('signup', [UserController::class, 'signup']);
 Route::options('{any}', function () {
     return response()->json(['status' => 'ok'])
         ->header('Access-Control-Allow-Origin', '*')
-        ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE ,apiResource, OPTIONS')
+        ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE , OPTIONS')
         ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 })->where('any', '.*');
 

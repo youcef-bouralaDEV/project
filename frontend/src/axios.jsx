@@ -17,7 +17,7 @@ axiosClient.interceptors.response.use((response) => {
   const {response} = error;
   if (response.status === 401) {
     localStorage.removeItem('Access')
-    window.location.reload();
+    // window.location.reload();
   } else if (response.status === 404) {
     console.log("not found from axios file");
   }

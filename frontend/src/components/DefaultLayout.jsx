@@ -10,33 +10,23 @@ import { useState } from "react";
 export default function DefaultLayout() {
   const navigate = useNavigate();
   const { token, saveToken, role } = useGlobelContext();
-  const [userRole , setUserRole] = useState(role)
+  const [userRole, setUserRole] = useState(role);
 
-  console.log(role);
 
-  // useEffect(() => {
-  //   console.log("Role updated:", role);
-  //   console.log(token);
-  //   setUserRole(role);
-  //   if (!token) {
-  //     redirectToLogin();
-  //   }
-  
-  // }, []);
-  
-  console.log("user role" , userRole);
+  useEffect(() => {
+    setUserRole(role);
+    if (!token) {
+      redirectToLogin();
+    }
+  }, []);
 
   const redirectToLogin = () => {
-    console.log("redirectToLogin");
-    console.log(userRole);
     if (!token && userRole === "admin") {
       navigate("/adminlogin");
     } else if (!token && userRole === "user") {
       navigate("/clientlogin");
-    }
-    else {
-      navigate('/adminlogin');
-
+    } else {
+      navigate("/adminlogin");
     }
   };
 
@@ -62,7 +52,7 @@ export default function DefaultLayout() {
           <Sidebar />
         </div>
         <div className="basis-[88%] border overflow-scroll h-[100vh]">
-          <Dashboardview onLogout={onLogout} />
+          <Dashboardview onLogout={onLogout}  />
           <div>
             <Outlet></Outlet>
           </div>

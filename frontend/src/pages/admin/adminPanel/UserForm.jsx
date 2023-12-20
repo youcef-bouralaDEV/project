@@ -8,19 +8,23 @@ export default function UserForm() {
   const [Update, setUpdate] = useState({
     id: null,
     name: "",
-    prenom : "" ,
-    username : "" ,
-    lastname : "" ,
+    username: "",
+    lastname: "",
     email: "",
     password: "",
-    addresse: "",
+    adresse: "",
+    raison_social: "",
+    groupe: "",
+    commune: "",
+    wilaya: "",
   });
+  console.log(Update);
   useEffect(() => {
     if (id) {
-      console.log(id);
       try {
-        axios.get("/users/" + id).then(({ data }) => {
-          setUpdate(data.data);
+        axios.get(`GetClient/${id}`).then(({ data }) => {
+          setUpdate(data);
+          console.log(data);
         });
       } catch (error) {
         console.log(error.response.data);
@@ -28,20 +32,23 @@ export default function UserForm() {
     }
   }, []);
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     if (Update.id) {
       try {
-        axios.put("/users/" + Update.id, Update).then(({}) => {
-          navigate("admin/client");
-        });
+        let response = await axios.put(`updateClient/${Update.id}`, Update);
+        console.log("after api call:", Update);
+        setUpdate(response.data)
+        navigate("/admin/client");
       } catch (error) {
-        console.log(error.response.data);
+        console.log("error after api call:", Update);
+        console.log(error);
       }
     } else {
       try {
-        axios.post("/users", Update).then(({ data }) => {
+        axios.post("/GetClient", Update).then(({ data }) => {
           setUpdate(data);
+          console.log(data);
           navigate("/admin/client");
         });
       } catch (error) {
@@ -49,12 +56,13 @@ export default function UserForm() {
       }
     }
   };
-
+console.log(Update);
   return (
     <form
       onSubmit={onSubmit}
       className="max-w-sm mx-auto  mt-10 border-2  p-10"
     >
+      {Update.id ? <p>user :{Update.name}</p> : <p>New user</p>}
       <div className="mb-5">
         <label
           htmlFor="name"
@@ -70,21 +78,7 @@ export default function UserForm() {
           onChange={(e) => setUpdate({ ...Update, name: e.target.value })}
         />
       </div>
-      <div className="mb-5">
-        <label
-          htmlFor="name"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-        >
-          Prenom
-        </label>
-        <input
-          type="name"
-          value={Update.prenom}
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          required
-          onChange={(e) => setUpdate({ ...Update, prenom: e.target.value })}
-        />
-      </div>
+
       <div className="mb-5">
         <label
           htmlFor="name"
@@ -99,7 +93,8 @@ export default function UserForm() {
           required
           onChange={(e) => setUpdate({ ...Update, lastname: e.target.value })}
         />
-      </div> <div className="mb-5">
+      </div>
+      <div className="mb-5">
         <label
           htmlFor="name"
           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -119,15 +114,31 @@ export default function UserForm() {
           htmlFor="email"
           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
         >
-          email
+          Email
         </label>
         <input
           type="email"
           value={Update.email}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="name@flowbite.com"
           required
           onChange={(e) => setUpdate({ ...Update, email: e.target.value })}
+        />
+      </div>
+
+      <div className="mb-5">
+        <label
+          htmlFor="text"
+          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >
+          raison_social
+        </label>
+        <input
+          type="text"
+          value={Update.raison_social}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          onChange={(e) =>
+            setUpdate({ ...Update, raison_social: e.target.value })
+          }
         />
       </div>
       <div className="mb-5">
@@ -135,17 +146,61 @@ export default function UserForm() {
           htmlFor="name"
           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
         >
-          Address
+          Adresse
         </label>
         <input
           type="name"
-          value={Update.addresse}
+          value={Update.adresse}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          onChange={(e) => setUpdate({ ...Update, adresse: e.target.value })}
           required
-          onChange={(e) => setUpdate({ ...Update, addresse: e.target.value })}
+        />
+      </div>
+
+      <div className="mb-5">
+        <label
+          htmlFor="email"
+          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >
+          commune
+        </label>
+        <input
+          type="text"
+          value={Update.commune}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="comune"
+          onChange={(e) => setUpdate({ ...Update, commune: e.target.value })}
         />
       </div>
       <div className="mb-5">
+        <label
+          htmlFor="groupe"
+          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >
+          Groupe
+        </label>
+        <input
+          type="text"
+          value={Update.groupe}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          onChange={(e) => setUpdate({ ...Update, groupe: e.target.value })}
+        />
+      </div>
+      <div className="mb-5">
+        <label
+          htmlFor="groupe"
+          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >
+          Willaya
+        </label>
+        <input
+          type="text"
+          value={Update.wilaya}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          onChange={(e) => setUpdate({ ...Update, wilaya: e.target.value })}
+        />
+      </div>
+      {/* <div className="mb-5">
         <label
           htmlFor="password"
           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -159,7 +214,7 @@ export default function UserForm() {
           required
           onChange={(e) => setUpdate({ ...Update, password: e.target.value })}
         />
-      </div>
+      </div> */}
 
       <button className="bg-green-500 text-white p-5 ">Update</button>
     </form>

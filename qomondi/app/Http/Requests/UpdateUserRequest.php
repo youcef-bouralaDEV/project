@@ -26,15 +26,15 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:55',
-            'prenom' => 'required|string|max:55',
+            'lastname' => 'required|string|max:55',
             'username' => 'string|max:55',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email|unique:users,email,' .$this->id,
             'raison_social' => 'string|max:55',
             'groupe' => 'string|max:55',
-            'addresse' => 'required|string|max:55',
-            'willaya' => 'string|max:55',
+            'adresse' => 'required|string|max:55',
+            'wilaya' => 'string|max:55',
             'commune' => 'string|max:55',
-            'password' => 'required',
+            // 'password' => 'required',
         ];
     }
 }

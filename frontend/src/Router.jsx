@@ -6,9 +6,10 @@ import Home from "./pages/admin/Home.jsx";
 import Dashboardview from "./pages/admin/Dashboardview.jsx";
 import AdminLogin from "./pages/admin/adminAuth/AdminLogin.jsx";
 import Client from "./pages/admin/adminPanel/Client.jsx";
-import UserForm from "./pages/admin/adminPanel/userForm.jsx";
 import ClientDashBoard from "./pages/client-Side/ClientDashBoard.jsx";
 import ClientLogin from "./pages/client-Side/ClientLogin.jsx";
+import UserForm from "./pages/admin/adminPanel/UserForm.jsx";
+import ProductHome from "./pages/admin/product/ProductHome.jsx";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "admin/client/:id",
         element: <UserForm/>,
+      },
+      {
+        path: "admin/product",
+        element: <ProductHome/>,
       },
       {
         path: "client/home",

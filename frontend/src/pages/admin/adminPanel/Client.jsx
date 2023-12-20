@@ -4,42 +4,19 @@ import { Link } from "react-router-dom";
 import { useGlobelContext } from "../../../Context";
 
 export default function Client() {
-  const [user, setUser] = useState({});
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    getUser();
-  }, []);
-
-  const getUser = async () => {
-    setLoading(true);
-    try {
-      axios.get("/users").then(({ data }) => {
-        let userRole = (data.data[0].roles).toString() ;
-        if(userRole === 'user'){
-
-          setUser(data.data);
-        }
-        console.log((data.data[1].roles).toString());
-        setLoading(false);
-      });
-    } catch (error) {
-      console.log(error.response.data);
-    }
-  };
+  const { user, loading } = useGlobelContext();
 
   const deleteUser = (id) => {
     if (!window.confirm("Are you sure you want to delete this user?")) {
       return;
     }
     try {
-      axios.delete(`/users/ ${id}`);
+      axios.delete(`deleteClient/${id}`);
     } catch (err) {
       console.log(err);
     }
     getUser();
   };
-
   return (
     <div className="relative overflow-x-auto p-6 my-5 shadow-md  bg-blue-100 sm:rounded-lg ">
       <Link to={"create"}>
@@ -65,31 +42,37 @@ export default function Client() {
         <tbody>
           {loading ? (
             <tr>
-              <td colSpan="4">Loading...</td>
+              <td className="text-xl w-full text-center font-bold">...loading</td>
             </tr>
           ) : user && user.length > 0 ? (
-            user.map(({ user_id: id, name, email }, index) => (
+            user.map((u) => (
               <tr
-                key={index}
+                key={u.id}
                 className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
               >
                 <th
                   scope="row"
                   className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                 >
-                  {id}
+                  {u.id}
                 </th>
-                <td className="px-6 py-4"> {name}</td>
-                <td className="px-6 py-4"> {email}</td>
+                <td className="px-6 py-4"> {u.name}</td>
+                <td className="px-6 py-4"> {u.email}</td>
                 <td className="px-6 py-4">
                   <Link
-                    to={"/admin/client/" + id}
+                    to={"/admin/client/" + u.id}
                     className="font-medium text-white bg-blue-600  p-2 rounded hover:underline mr-2"
                   >
                     Edit
                   </Link>
+                  <Link
+                    to={"/admin/client/" + u.id}
+                    className="font-medium text-white bg-blue-600  p-2 rounded hover:underline mr-2"
+                  >
+                    View
+                  </Link>
                   <button
-                    onClick={() => deleteUser(id)}
+                    onClick={() => deleteUser(u.id)}
                     className="font-medium text-white bg-red-600 p-2 rounded hover:underline"
                   >
                     Delete

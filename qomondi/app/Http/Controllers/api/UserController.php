@@ -12,24 +12,7 @@ use Illuminate\Support\Facades\Request;
 
 class UserController extends Controller
 {
-    // public function signup(RegisterRequest $request)
-    // {
-    //     // register user
-    //     $user = User::create([
-    //         'name'        => $request->name,
-    //         'email'       => $request->email,
-    //         'password'    => bcrypt($request->password)
-    //     ]);
-
-    //     // assign role
-    //     $user_role = Role::where(['name' => 'user'])->first();
-    //     if ($user_role) {
-    //         $user->assignRole($user_role);
-    //     }
-
-    //     // send response
-    //     return new UserResource($user);
-    // }
+    
     public function login(authRequest $request)
     {   
     

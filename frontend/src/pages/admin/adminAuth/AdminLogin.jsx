@@ -27,7 +27,7 @@ const AdminLogin = () => {
         setRole(userRole);
         console.log();
         saveToken(response.data.token);
-        console.log(response.data.token);
+        console.log(response.data);
         console.log("admin login ",userRole);
       } else {
         // Display specific error for invalid role
