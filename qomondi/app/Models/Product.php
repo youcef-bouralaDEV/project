@@ -8,17 +8,21 @@ use App\Enums\EtatDuStockEnum;
 use App\Enums\UniteDeLongueurEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Product extends Model
+class Product extends Model implements HasMedia
 {
-    use HasFactory;
+    use HasFactory , InteractsWithMedia;
+
+  
 
     protected $fillable = [
-        "name",
-        'category_id ',
+        'nom',
+        'category_id',
         'type_id',
         'code',
-        'images' ,
+        'images',
         'codebarreEAN13',
         'ref',
         'quantity',
@@ -31,17 +35,15 @@ class Product extends Model
         'length',
         'width',
         'poid',
-        'etat',
         'etat_du_stock',
         'commande_Colis',
         'uniteLongueur',
         'Unité_poids',
         'description',
-        "etat",
-        "etat_du_stock",
+        'etat',
+        'etat_du_stock',
         'commande_Colis',
         'uniteLongueur',
-        'image_path',
         'Unité_poids'
     ];
 
@@ -65,5 +67,6 @@ class Product extends Model
     {
         return $this->belongsTo(Product::class);
     }
-  
+
+   
 }

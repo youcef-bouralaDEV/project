@@ -3,8 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\api\ClientsController;
+use App\Http\Controllers\api\ProductsControllers;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,12 +20,17 @@ use App\Http\Controllers\api\ClientsController;
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [UserController::class, 'logout']);
     Route::put('/updateClient/{id}', [ClientsController::class , 'update']);
-    Route::post('/GetClient', [ClientsController::class , 'store']);
+    Route::post('/CreateClient', [ClientsController::class , 'create']);
         Route::get('/GetClients', [ClientsController::class ,'GetClients']);
     Route::get('/GetClient/{id}', [ClientsController::class ,'GetClient']);
     Route::delete('/deleteClient/{id}', [ClientsController::class ,'destroy']);
 
-    Route::get('/getProducts' , [ProductsController::class ,'index']);
+    Route::get('/getProducts' , [ProductsControllers::class ,'getProducts']);
+    Route::delete('/deleteProduct/{id}' , [ProductsControllers::class ,'deleteProduct']);
+    Route::put('/updateProduct/{id}' , [ProductsControllers::class ,'updateProduct']);
+    Route::get('/viewProduct/{id}' , [ProductsControllers::class ,'show']);
+    Route::post('/createProducts' , [ProductsControllers::class ,'store']);
+    
 });
 
 Route::post('login', [UserController::class, "login"]);

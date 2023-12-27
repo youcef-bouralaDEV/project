@@ -18,7 +18,7 @@ export default function UserForm() {
     commune: "",
     wilaya: "",
   });
-  console.log(Update);
+  console.log(id);
   useEffect(() => {
     if (id) {
       try {
@@ -37,16 +37,14 @@ export default function UserForm() {
     if (Update.id) {
       try {
         let response = await axios.put(`updateClient/${Update.id}`, Update);
-        console.log("after api call:", Update);
         setUpdate(response.data)
         navigate("/admin/client");
       } catch (error) {
-        console.log("error after api call:", Update);
         console.log(error);
       }
     } else {
       try {
-        axios.post("/GetClient", Update).then(({ data }) => {
+        axios.post("/CreateClient", Update).then(({ data }) => {
           setUpdate(data);
           console.log(data);
           navigate("/admin/client");
@@ -200,7 +198,7 @@ console.log(Update);
           onChange={(e) => setUpdate({ ...Update, wilaya: e.target.value })}
         />
       </div>
-      {/* <div className="mb-5">
+       <div className="mb-5">
         <label
           htmlFor="password"
           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -214,7 +212,7 @@ console.log(Update);
           required
           onChange={(e) => setUpdate({ ...Update, password: e.target.value })}
         />
-      </div> */}
+      </div>
 
       <button className="bg-green-500 text-white p-5 ">Update</button>
     </form>

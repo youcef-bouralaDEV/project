@@ -14,14 +14,16 @@ export default function DefaultLayout() {
 
 
   useEffect(() => {
-    setUserRole(role);
+   
     if (!token) {
       redirectToLogin();
     }
-  }, []);
-
+  }, [token]);
+console.log(role);
   const redirectToLogin = () => {
-    if (!token && userRole === "admin") {
+console.log(role);
+
+    if (!token && role === "admin") {
       navigate("/adminlogin");
     } else if (!token && userRole === "user") {
       navigate("/clientlogin");

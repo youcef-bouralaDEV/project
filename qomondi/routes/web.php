@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use App\Models\client;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Contracts\Role;
 
@@ -17,9 +18,10 @@ use Spatie\Permission\Contracts\Role;
 */
 
 Route::get('/', function () {
-    $clientsWithRoles = User::with('roles', 'permissions')->get();
-    return response()->json(  $clientsWithRoles) ;
-    // $users = User::all() ;
+    // $clientsWithRoles = User::with('roles', 'permissions')->get();
+    // return response()->json(  $clientsWithRoles) ;
+     $products = Product::all() ;
+     return response()->json($products);
     
 
 

@@ -19,7 +19,6 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->json('images')->nullable();
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->unsignedBigInteger('type_id');
@@ -27,17 +26,17 @@ return new class extends Migration
             $table->string('nom');
             $table->integer('code')->nullable();
             $table->integer('codebarreEAN13')->nullable();
-            $table->string('ref')->nullable();
+            $table->integer('ref')->nullable();
             $table->integer('quantity');
             $table->integer('quantité_minimal')->nullable();
             $table->double('prix');
             $table->double('prix_dachat')->nullable();
             $table->double('grossiste')->nullable();
             $table->string('coulissage')->nullable();
-            $table->string('height')->nullable();
-            $table->string('length')->nullable();
-            $table->string('width')->nullable();
-            $table ->string('poid')->nullable();
+            $table->integer('height')->nullable();
+            $table->integer('length')->nullable();
+            $table->integer('width')->nullable();
+            $table ->integer('poid')->nullable();
             $table->string('etat')->default(EtatEnum::Active);
             $table->string('etat_du_stock')->default(EtatDuStockEnum::Disponible);
             $table->string('commande_Colis')->default(CommandeParColisEnum::Par_Defaut);

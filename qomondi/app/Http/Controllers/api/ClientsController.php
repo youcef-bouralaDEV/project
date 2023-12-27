@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\User;
-use App\Models\client;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
-use App\Http\Resources\ClientResource;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 
@@ -29,13 +27,13 @@ class ClientsController extends Controller
      * @param \App\Http\Requests\StoreUserRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreUserRequest $request)
+    public function create(StoreUserRequest $request)
     {
         $data = $request->validated();
         $data['password'] = bcrypt($data['password']);
         $user = User::create($data);
 
-        
+
         $role = Role::where('name', 'user')->first();
         $user->assignRole($role);
 
@@ -62,14 +60,14 @@ class ClientsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateUserRequest $request,  $id)
-    
+
     {
         $user = User::find($id);
 
         if (!$user) {
             return response()->json(['error' => 'User not found'], 404);
         }
-        
+
         $data = $request->validated();
         if (isset($data['password'])) {
             $data['password'] = bcrypt($data['password']);
@@ -86,11 +84,10 @@ class ClientsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {     
+    {
         $user = User::find($id);
-        if(!$user){
-        return response("error", 401);
-            
+        if (!$user) {
+            return response("error", 401);
         }
 
         $user->delete();
@@ -101,23 +98,22 @@ class ClientsController extends Controller
     public function GetClients()
     {
         $clients = User::whereHas('roles', function ($query) {
-        $query->where('name', 'user');
-    })->get();
+            $query->where('name', 'user');
+        })->get();
 
         return response()->json(UserResource::collection($clients));
     }
 
-    
-    public function GetClient($id)
-{
-  $client = User::find($id) ;
-  if (!$client) {
-    return response()->json(['error' => 'Client not found'], 404);
-}
 
-return response()->json(new UserResource($client));
- 
-}
+    public function GetClient($id)
+    {
+        $client = User::find($id);
+        if (!$client) {
+            return response()->json(['error' => 'Client not found'], 404);
+        }
+
+        return response()->json(new UserResource($client));
+    }
 
     // public function options()
     // {

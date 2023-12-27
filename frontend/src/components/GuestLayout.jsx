@@ -7,7 +7,7 @@ export default function GuestLayout() {
 
   console.log("geust admin", role);
 
-  if (token && role == "admin") {
+  if (token && role === "admin") {
     return <Navigate to={"admin/home"} />;
   }
   else if (token && role === "user") {

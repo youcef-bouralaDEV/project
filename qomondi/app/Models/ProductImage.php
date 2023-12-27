@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class ProductImage extends Model
 {
     use HasFactory;
-    protected $fillable = ['image_path' ,"product_id"];
+    protected $table = 'images';
+
+    protected $fillable = ['image', 'product_id'];
 
     public function product()
     {

@@ -19,16 +19,17 @@ export const AppProvider = ({ children }) => {
     try {
       const response = await axios.get("/GetClients")
         setUser(response.data);
+        console.log(response.data);
         setLoading(false);
       
     } catch (error) {
       console.log(error);
     }
   };
-console.log(user);
+// console.log(user);
   const saveToken = (token) => {
     setToken(token);
-    console.log(token);
+   
     if (token) {
       localStorage.setItem("Access", token);
     } else {

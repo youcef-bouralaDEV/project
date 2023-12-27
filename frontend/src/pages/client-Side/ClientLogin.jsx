@@ -14,13 +14,14 @@ const ClientLogin = () => {
     email: "",
     password: "",
   });
-
+console.log(credentials);
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8000/api/login", {
+      const response = await axios.post("login", {
         ...credentials,
       });
+      console.log(response);
 
       const userRole = response.data["user"].roles.toString();
       if (response.status === 200 && userRole === "user") {
