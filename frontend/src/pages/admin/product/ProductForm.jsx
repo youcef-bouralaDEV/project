@@ -1,14 +1,17 @@
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "../../../axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useGlobelContext } from "../../../Context";
 
 export default function ProductForm() {
+  const { categories, marks } = useGlobelContext();
   const navigate = useNavigate();
   const { id } = useParams();
   const [productData, setProductData] = useState({
+    id :null,
     nom: "",
     category_id: "",
-    type_id: "",
+    mark_id: "",
     code: null,
     codebarreEAN13: null,
     ref: null,
@@ -31,41 +34,70 @@ export default function ProductForm() {
     commande_Colis: "",
     uniteLongueur: "",
     Unité_poids: "",
+    images:[]
   });
 
   const handleChanges = (e) => {
-    const { name, value, files } = e.target;
+    const { name, files } = e.target;
 
     if (files) {
-    
-      
-      setProductData((prev) => ({ ...prev, [name]: files }));
-  } else {
+      setProductData((prev) => ({ ...prev, [name]: files[0] }));
+    } else {
       setProductData((prev) => ({ ...prev, [name]: e.target.value }));
-  }
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  if(id){
+    try{
 
+      console.log("Update Product Data:", productData);
+     const response = await axios.put(`updateProduct/${id}` , productData ,
+     {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+    
+  );
+     console.log(response.data);
+    }catch(err){
+      console.log(err);
+    }
+  }else {
+
+    try {
     const formData = new FormData();
     for (const key in productData) {
       formData.append(key, productData[key]);
     }
-    console.log(formData);
-    try {
       await axios.post(`/createProducts`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      // navigate("/admin/product");
+      console.log("create Product Data:", productData);
+      navigate("/admin/product");
     } catch (error) {
-      console.error("Error creating product", error);
+      console.error("Error creating product", error.message);
     }
-    console.log(formData);
+    // console.log(formData);
+  }
   };
-
+  useEffect(()=> {
+    if(id){
+      console.log(id);
+      try{
+        axios.get('getProduct/'+id ).then(({data})=> {
+          console.log(data);
+          setProductData(data)
+        })
+      }catch(err){
+        console.log(err);
+      }
+      }
+  },[])
   console.log(productData);
   return (
     <form
@@ -138,24 +170,31 @@ export default function ProductForm() {
         onChange={handleChanges}
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
       >
-        <option>Sélectionnez...</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
+        <option value="">Sélectionnez...</option>
+        {categories.map((category) => (
+          <option key={category.id} value={category.id}>
+            {category.Nom}
+          </option>
+        ))}
       </select>
+
       <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
         Marque
       </label>
       <select
         required
-        name="type_id"
-        value={productData.type_id}
+        name="mark_id"
+        value={productData.mark_id}
         onChange={handleChanges}
-        id="type"
+        id="mark"
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
       >
-        <option>Sélectionnez...</option>
-        <option>1</option>
-        <option>samsung</option>
+        <option value="">Sélectionnez...</option>
+        {marks.map((mark) => (
+          <option key={mark.id} value={mark.id}>
+            {mark.name}
+          </option>
+        ))}
       </select>
       <div className="w-72">
         <div className="relative w-full min-w-[200px] h-10">

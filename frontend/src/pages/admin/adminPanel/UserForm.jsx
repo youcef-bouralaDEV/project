@@ -1,6 +1,7 @@
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import axios from "../../../axios";
 import React, { useEffect, useState } from "react";
+import { data } from "autoprefixer";
 
 export default function UserForm() {
   const { id } = useParams();
@@ -46,15 +47,16 @@ export default function UserForm() {
       try {
         axios.post("/CreateClient", Update).then(({ data }) => {
           setUpdate(data);
-          console.log(data);
           navigate("/admin/client");
         });
       } catch (error) {
         console.log(error.response.data);
       }
+     
     }
   };
-console.log(Update);
+
+// console.log(user);
   return (
     <form
       onSubmit={onSubmit}

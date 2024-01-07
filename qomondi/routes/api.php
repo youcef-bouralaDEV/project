@@ -2,7 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\MarksController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\api\ClientsController;
 use App\Http\Controllers\api\ProductsControllers;
 
@@ -25,11 +27,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/GetClient/{id}', [ClientsController::class ,'GetClient']);
     Route::delete('/deleteClient/{id}', [ClientsController::class ,'destroy']);
 
+    Route::get('/getProduct/{id}' , [ProductsControllers::class ,'getProduct']);
     Route::get('/getProducts' , [ProductsControllers::class ,'getProducts']);
     Route::delete('/deleteProduct/{id}' , [ProductsControllers::class ,'deleteProduct']);
     Route::put('/updateProduct/{id}' , [ProductsControllers::class ,'updateProduct']);
     Route::get('/viewProduct/{id}' , [ProductsControllers::class ,'show']);
     Route::post('/createProducts' , [ProductsControllers::class ,'store']);
+    Route::get('/getCategories' , [CategoryController::class ,'getCategories']);
+    Route::get('/getMarks' , [MarksController::class ,'getMarks']);
     
 });
 

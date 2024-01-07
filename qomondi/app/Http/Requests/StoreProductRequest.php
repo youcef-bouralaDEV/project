@@ -24,11 +24,11 @@ class StoreProductRequest extends FormRequest
         return [
             'nom' => 'required|string|max:255',
             'category_id' => 'required|integer',
-            'type_id' => 'required|integer',
+            'mark_id' => 'required|integer',
             'prix' => 'nullable|numeric',
             'etat_du_stock' => 'required|string|max:255',
             'etat' => 'required|string|max:255',
-            'image.*' => 'required',
+            'images' => 'required',
             'quantity' => 'nullable|numeric',
 
 

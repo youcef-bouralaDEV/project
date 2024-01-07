@@ -20,9 +20,8 @@ class Product extends Model implements HasMedia
     protected $fillable = [
         'nom',
         'category_id',
-        'type_id',
+        'mark_id',
         'code',
-        'images',
         'codebarreEAN13',
         'ref',
         'quantity',
@@ -59,14 +58,11 @@ class Product extends Model implements HasMedia
         return $this->belongsTo(Category::class, 'category_id');
     }
 
-    public function type()
+    public function mark()
     {
-        return $this->belongsTo(Type::class, 'type_id');
+        return $this->belongsTo(Mark::class, 'mark_id');
     }
-    public function product()
-    {
-        return $this->belongsTo(Product::class);
-    }
+    
 
    
 }

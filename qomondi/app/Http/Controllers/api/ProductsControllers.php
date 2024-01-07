@@ -28,16 +28,13 @@ class ProductsControllers extends Controller
 
     public function store(StoreProductRequest $request)
     {
-        return response()->json($request->file('images'), 500);
 
         $data = $request->validated();
 
         $product = Product::create($data);
 
-        if ($request->hasFile('image')) {
-            foreach ($request->file('images') as $image) {
-                $product->addMedia($image)->toMediaCollection('images');
-            }
+        if ($request->hasFile('images')) {
+            $product->addMedia($request->file('images'))->toMediaCollection('images');
         }
         return new ProductsResource($product);
     }
@@ -46,7 +43,11 @@ class ProductsControllers extends Controller
     {
         $product = Product::find($id);
         $product->update($request->validated());
-        return new ProductsResource($product);
+        if ($request->hasFile('images')) {
+            $product->addMedia($request->file('images'))->toMediaCollection('images');
+        }
+        return response()->json(new ProductsResource($product));
+
     }
 
     public function deleteProduct($id)
@@ -55,5 +56,12 @@ class ProductsControllers extends Controller
 
         $product->delete();
         return response()->json(['message' => 'Product deleted successfully']);
+    }
+    
+    public function getProduct($id){
+        
+        $product = Product::find($id);
+        return response()->json(new ProductsResource($product));
+        
     }
 }

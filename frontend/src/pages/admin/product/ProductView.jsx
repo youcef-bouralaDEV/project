@@ -36,6 +36,10 @@ export default function SingleProductView() {
       <h2 className="text-2xl font-semibold text-white mb-4">
         SingleProduct Details
       </h2>
+      <div>
+        <img className="w-[200px]" src= {SingleProduct.images} alt="" />
+       
+      </div>
       <div className="flex justify-center items-center flex-col gap-4">
         <div className="border border-black p-4 mb-4 "  >
           <span className="font-bold">Name:</span>

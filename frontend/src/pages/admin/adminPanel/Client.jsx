@@ -4,7 +4,12 @@ import { Link } from "react-router-dom";
 import { useGlobelContext } from "../../../Context";
 
 export default function Client() {
-  const { user, loading } = useGlobelContext();
+  const { getUser,user, loading } = useGlobelContext();
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
 console.log(user);
   const deleteUser = (id) => {
     if (!window.confirm("Are you sure you want to delete this user?")) {
