@@ -12,13 +12,14 @@ export default function ProductHome() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedMark, setSelectedMark] = useState("");
   const [searchName, setSearchName] = useState("");
+  const [searchByCode, setSearchByCode] = useState("");
+  const [searchByRef, setSearchByRef] = useState("");
+  const [searchByEtat, setSearchByEtat] = useState("");
 
   console.log(products);
   useEffect(() => {
     getProducts();
   }, []);
-
-
 
   const getProducts = async () => {
     setLaoding(true);
@@ -53,35 +54,51 @@ export default function ProductHome() {
       case "mark":
         setSelectedMark(value);
         break;
-
+      case "etat":
+        setSearchByEtat(value);
+        break;
+      case "code":
+        setSearchByCode(value);
+        break;
+      case "ref":
+        setSearchByRef(value);
+        break;
       default:
         break;
     }
   };
-
-  //  console.log(selectedCategory);
 
   const handleFilterClick = () => {
     const filtered = products.filter((product) => {
       const categoryMatch =
         !selectedCategory ||
         product.category_id.toString() === selectedCategory;
-      console.log(selectedCategory);
-
       const markMatch =
         !selectedMark || product.mark_id.toString() === selectedMark;
-      console.log(selectedMark);
       const nameMatch =
         !searchName ||
-        product.name.toLowerCase().includes(searchName.toLowerCase());
-      console.log(searchName);
-      console.log(categoryMatch, markMatch, nameMatch);
-      return categoryMatch && markMatch && nameMatch;
+        product.nom.toLowerCase().includes(searchName.toLowerCase());
+      const etatMatch =
+        !searchByEtat || product.etat.toLowerCase() === searchByEtat.toLowerCase();
+        console.log(searchByCode);
+      const codeMatch = !searchByCode ||( product.code && product.code.toString()) === searchByCode;
+      console.log(product.code);
+      const refMatch = !searchByRef || (product.ref && product.ref.toString()) === searchByRef;
+
+      return (
+        categoryMatch &&
+        markMatch &&
+        nameMatch &&
+        etatMatch &&
+        codeMatch &&
+        refMatch
+      );
     });
 
     setFiltredProducts(filtered);
     console.log(filtredProducts);
   };
+
   // console.log(products);
   return (
     <div className="py-5">
@@ -120,6 +137,8 @@ export default function ProductHome() {
                 Name:
               </label>
               <input
+                onChange={handleChanges}
+                value={searchName}
                 type="text"
                 id="name"
                 name="name"
@@ -161,6 +180,8 @@ export default function ProductHome() {
                 Code:
               </label>
               <input
+                value={searchByCode}
+                onChange={handleChanges}
                 type="text"
                 id="code"
                 name="code"
@@ -179,14 +200,14 @@ export default function ProductHome() {
                 Etat:
               </label>
               <select
-                id="etat"
+                value={searchByEtat}
+                onChange={handleChanges}
                 name="etat"
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                onChange={(e) => handleEtatChange(e.target.value)}
               >
-                {/* Options for Etat */}
                 <option value="">Select Etat</option>
-                {/* Add your dynamic options here */}
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
               </select>
             </div>
             <div className="col-span-1">
@@ -197,6 +218,8 @@ export default function ProductHome() {
                 Ref:
               </label>
               <input
+                value={searchByRef}
+                onChange={handleChanges}
                 type="text"
                 id="ref"
                 name="ref"

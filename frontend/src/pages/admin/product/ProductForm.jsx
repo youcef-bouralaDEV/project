@@ -8,7 +8,7 @@ export default function ProductForm() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [productData, setProductData] = useState({
-    id :null,
+    id: null,
     nom: "",
     category_id: "",
     mark_id: "",
@@ -34,70 +34,75 @@ export default function ProductForm() {
     commande_Colis: "",
     uniteLongueur: "",
     Unité_poids: "",
-    images:[]
+    images: null,
   });
+  console.log("Update Product Data:", productData);
 
   const handleChanges = (e) => {
     const { name, files } = e.target;
 
     if (files) {
+      console.log(files);
       setProductData((prev) => ({ ...prev, [name]: files[0] }));
     } else {
+      console.log(name);
       setProductData((prev) => ({ ...prev, [name]: e.target.value }));
     }
   };
-
+  
+  console.log("Update Product Data:", productData);
   const handleSubmit = async (e) => {
     e.preventDefault();
-  if(id){
-    try{
+    if (id) {
+      try {
+        const response = await axios.put(
+          `updateProduct/${id}`,
+          productData,
+          //  {
+          //   headers: {
+          //     "Content-Type": "multipart/form-data",
+          //   },
+          // }
 
-      console.log("Update Product Data:", productData);
-     const response = await axios.put(`updateProduct/${id}` , productData ,
-     {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    }
-    
-  );
-     console.log(response.data);
-    }catch(err){
-      console.log(err);
-    }
-  }else {
-
-    try {
-    const formData = new FormData();
-    for (const key in productData) {
-      formData.append(key, productData[key]);
-    }
-      await axios.post(`/createProducts`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      console.log("create Product Data:", productData);
-      navigate("/admin/product");
-    } catch (error) {
-      console.error("Error creating product", error.message);
-    }
-    // console.log(formData);
-  }
-  };
-  useEffect(()=> {
-    if(id){
-      console.log(id);
-      try{
-        axios.get('getProduct/'+id ).then(({data})=> {
-          console.log(data);
-          setProductData(data)
-        })
-      }catch(err){
+          navigate("/admin/product")
+        );
+        console.log(response.data);
+      } catch (err) {
         console.log(err);
       }
+      console.log("Update Product Data:", productData);
+    } else {
+      try {
+        const formData = new FormData();
+        for (const key in productData) {
+          formData.append(key, productData[key]);
+        }
+        await axios.post(`/createProducts`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        console.log("create Product Data:", productData);
+        navigate("/admin/product");
+      } catch (error) {
+        console.error("Error creating product", error.message);
       }
-  },[])
+      // console.log(formData);
+    }
+  };
+  useEffect(() => {
+    if (id) {
+      console.log(id);
+      try {
+        axios.get("getProduct/" + id).then(({ data }) => {
+          console.log(data);
+          setProductData(data);
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }, []);
   console.log(productData);
   return (
     <form
@@ -231,8 +236,8 @@ export default function ProductForm() {
               type="radio"
               name="etat"
               value="Active"
-              // checked={productData.etat === "active"}
               onChange={handleChanges}
+              checked={productData.etat === "Active"}
             />
             <label
               className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -268,7 +273,7 @@ export default function ProductForm() {
             name="etat_du_stock"
             value="Disponible"
             onChange={handleChanges}
-            // checked={productData.etat_du_stock === "Disponible"}
+            checked={productData.etat_du_stock === "Disponible"}
           />
           <label
             className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -453,6 +458,17 @@ export default function ProductForm() {
           className="w-full border p-2"
           multiple
         />
+      </div>
+      <div className="imageManipulation">
+        <img
+          className="w-[100px]"
+          src={productData.images || "../../../../src/assets/skills-01.jpg"}
+          alt={productData.id}
+        />
+        <div className="btns">
+          <button className="p-2 bg-slate-200">change</button>
+          <button className="p-2 bg-slate-200">delete</button>
+        </div>
       </div>
 
       <button className="bg-green-400 rounded  py-3 w-[100px] text-center mx-auto  my-5">

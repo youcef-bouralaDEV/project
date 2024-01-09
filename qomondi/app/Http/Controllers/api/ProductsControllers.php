@@ -39,16 +39,24 @@ class ProductsControllers extends Controller
         return new ProductsResource($product);
     }
 
-    public function updateProduct(UpdateProductRequest $request, $id)
-    {
+    public function updateProduct(StoreProductRequest $request, $id)
+{   
+    try {
+        Log::info('Received data:', $request->all());
         $product = Product::find($id);
         $product->update($request->validated());
+        
         if ($request->hasFile('images')) {
             $product->addMedia($request->file('images'))->toMediaCollection('images');
         }
-        return response()->json(new ProductsResource($product));
+        
 
+        return response()->json(new ProductsResource($product));
+    } catch (\Exception $error) {
+        return response()->json(['error' => $error->getMessage()], 500);
     }
+}
+
 
     public function deleteProduct($id)
     {

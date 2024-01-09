@@ -18,10 +18,16 @@ use Spatie\Permission\Contracts\Role;
 */
 
 Route::get('/', function () {
+
+    
     // $clientsWithRoles = User::with('roles', 'permissions')->get();
     // return response()->json(  $clientsWithRoles) ;
      $products = Product::all() ;
      return response()->json($products);
+
+
+    
+
     
 
 

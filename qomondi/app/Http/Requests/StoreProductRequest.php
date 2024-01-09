@@ -30,16 +30,9 @@ class StoreProductRequest extends FormRequest
             'etat' => 'required|string|max:255',
             'images' => 'required',
             'quantity' => 'nullable|numeric',
-
-
-
-
-
-
-
-
-
-
+             'ref' => 'nullable|numeric|max:255',
+            'code' => 'nullable|numeric|max:255',
+            // 'codebarreEAN13' => 'nullable|max:255|numeric',
 
 
 
@@ -60,8 +53,6 @@ class StoreProductRequest extends FormRequest
 
 
             //  'description' => 'string',
-            // 'code' => 'nullable|max:255|numeric',
-            // 'codebarreEAN13' => 'nullable|max:255|numeric',
             //  'commande_Colis' => 'string|max:255',
             //  'Unité_poids' => 'required|string|max:255',
             // 'prix_dachat' => 'numeric',
@@ -71,7 +62,6 @@ class StoreProductRequest extends FormRequest
             // 'length' => 'nullable|numeric',
             // 'width' => 'nullable|numeric',
             // 'poid' => 'nullable|numeric',
-            // 'ref' => 'nullable|max:255|numeric',
             //  'grossiste' => 'required|numeric',
             // 
             // 'quantité_minimal' => 'nullable|numeric',

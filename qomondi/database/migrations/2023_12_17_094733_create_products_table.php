@@ -24,8 +24,8 @@ return new class extends Migration
             $table->unsignedBigInteger('mark_id');
             $table->foreign('mark_id')->references('id')->on('markes');
             $table->string('nom');
-            $table->integer('code')->nullable();
             $table->integer('codebarreEAN13')->nullable();
+            $table->integer('code')->nullable();
             $table->integer('ref')->nullable();
             $table->integer('quantity');
             $table->integer('quantité_minimal')->nullable();
