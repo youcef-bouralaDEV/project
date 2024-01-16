@@ -1,38 +1,26 @@
 import axios from "../../../axios";
 import React, { useEffect, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
-import ProductView from "./ProductView";
-import { useGlobelContext } from "../../../Context";
+import { Link} from "react-router-dom";
+import { useProductContext } from "../../../context/ProductContext";
 
 export default function ProductHome() {
-  const { categories, marks } = useGlobelContext();
-  const [loading, setLaoding] = useState(false);
-  const [products, setProducts] = useState([]);
-  const [filtredProducts, setFiltredProducts] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedMark, setSelectedMark] = useState("");
-  const [searchName, setSearchName] = useState("");
-  const [searchByCode, setSearchByCode] = useState("");
-  const [searchByRef, setSearchByRef] = useState("");
-  const [searchByEtat, setSearchByEtat] = useState("");
+  const {
+    products,
+    handleChanges,
+    handleFilterClick,
+    filtredProducts,
+    loading,
+    searchName,
+    searchByCode,
+    searchByRef,
+    searchByEtat,
+    getProducts,
+    selectedCategory,
+    selectedMark,
+    categories,
+    marks,
+  } = useProductContext();
 
-  console.log(products);
-  useEffect(() => {
-    getProducts();
-  }, []);
-
-  const getProducts = async () => {
-    setLaoding(true);
-    try {
-      let response = await axios.get("/getProducts");
-      // console.log(response.data);
-      setLaoding(false);
-      setProducts(response.data);
-      setFiltredProducts(response.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
   const deleteProduct = (id) => {
     console.log(id);
     try {
@@ -42,64 +30,8 @@ export default function ProductHome() {
       console.log(err);
     }
   };
-  const handleChanges = (e) => {
-    const { name, value } = e.target;
-    switch (name) {
-      case "category":
-        setSelectedCategory(value);
-        break;
-      case "name":
-        setSearchName(value);
-        break;
-      case "mark":
-        setSelectedMark(value);
-        break;
-      case "etat":
-        setSearchByEtat(value);
-        break;
-      case "code":
-        setSearchByCode(value);
-        break;
-      case "ref":
-        setSearchByRef(value);
-        break;
-      default:
-        break;
-    }
-  };
 
-  const handleFilterClick = () => {
-    const filtered = products.filter((product) => {
-      const categoryMatch =
-        !selectedCategory ||
-        product.category_id.toString() === selectedCategory;
-      const markMatch =
-        !selectedMark || product.mark_id.toString() === selectedMark;
-      const nameMatch =
-        !searchName ||
-        product.nom.toLowerCase().includes(searchName.toLowerCase());
-      const etatMatch =
-        !searchByEtat || product.etat.toLowerCase() === searchByEtat.toLowerCase();
-        console.log(searchByCode);
-      const codeMatch = !searchByCode ||( product.code && product.code.toString()) === searchByCode;
-      console.log(product.code);
-      const refMatch = !searchByRef || (product.ref && product.ref.toString()) === searchByRef;
-
-      return (
-        categoryMatch &&
-        markMatch &&
-        nameMatch &&
-        etatMatch &&
-        codeMatch &&
-        refMatch
-      );
-    });
-
-    setFiltredProducts(filtered);
-    console.log(filtredProducts);
-  };
-
-  // console.log(products);
+  console.log();
   return (
     <div className="py-5">
       <div className="max-w-screen-md mx-auto p-4 border border-gray-300">

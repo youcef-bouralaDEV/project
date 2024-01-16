@@ -1,36 +1,49 @@
-import axios from "./axios";
+import axios from "../axios";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext();
 
 export const AppProvider = ({ children }) => {
-  const [role, setRole] = useState(null);
+  const [user, setUser] = useState(null);
+  const [role, setRole] = useState([]);
   const [token, setToken] = useState(localStorage.getItem("Access"));
-  const [user, setUser] = useState([]);
+  const [clients, setClients] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [categories, setCategories] = useState([]);
-  const [marks, setMarks] = useState([]);
-
   
 
+ 
   useEffect(() => {
-    getUser();
-    getCategories();
-    getMarks();
+    getClients();
+    GetUser();
   }, []);
-
-  const getUser = async () => {
+  const getClients = async () => {
     setLoading(true);
     try {
       const response = await axios.get("/GetClients");
-      setUser(response.data);
-      console.log(response.data);
+
+      setClients(response.data);
+
+      // console.log(response.data);
       setLoading(false);
     } catch (error) {
       console.log(error);
     }
   };
-  // console.log(user);
+  const GetUser = async () => {
+    try {
+      let response = await axios.get("/GetUser", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setUser(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log(user?.role);
+
   const saveToken = (token) => {
     setToken(token);
 
@@ -41,36 +54,16 @@ export const AppProvider = ({ children }) => {
     }
   };
 
-  const getCategories = async () => {
-    try {
-      const response = await axios.get("/getCategories");
-      // console.log(response.data);
-      setCategories(response.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  const getMarks = async () => {
-    try {
-      const response = await axios.get("/getMarks");
-      // console.log(response.data);
-      setMarks(response.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-console.log(marks);
+  // console.log(marks);
   return (
     <AuthContext.Provider
       value={{
         token,
-        user,
+        clients,
         loading,
-        role,
-        categories,
-        marks,
+        user,
         setRole,
-        getUser,
+        getClients,
         saveToken,
         setToken,
       }}

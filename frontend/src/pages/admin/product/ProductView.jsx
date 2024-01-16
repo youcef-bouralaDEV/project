@@ -1,7 +1,7 @@
 import axios from "../../../axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useGlobelContext } from "../../../Context";
+import { useGlobelContext } from "../../../context/Context";
 
 export default function SingleProductView() {
   const [SingleProduct, setSingleProduct] = useState([]);
@@ -30,28 +30,27 @@ export default function SingleProductView() {
   console.log(SingleProduct); // This will still show the previous state
 
   return (
- 
-    <div className="container mx-auto my-8 p-6 
-     rounded-md">
+    <div
+      className="container mx-auto my-8 p-6 
+     rounded-md"
+    >
       <h2 className="text-2xl font-semibold text-white mb-4">
         SingleProduct Details
       </h2>
       <div>
-        <img className="w-[200px]" src= {SingleProduct.images} alt="" />
-       
+        <img className="w-[200px]" src={SingleProduct.images} alt="" />
       </div>
       <div className="flex justify-center items-center flex-col gap-4">
-        <div className="border border-black p-4 mb-4 "  >
+        <div className="border border-black p-4 mb-4 ">
           <span className="font-bold">Name:</span>
           <span>{SingleProduct.nom}</span>
 
           <span className="font-bold">Code:</span>
           <span>{SingleProduct.code}</span>
-        <div className="flex ">
-
-          <span className="font-bold ">Réf:</span>
-          <span>{SingleProduct.ref}</span>
-        </div>
+          <div className="flex ">
+            <span className="font-bold ">Réf:</span>
+            <span>{SingleProduct.ref}</span>
+          </div>
 
           <span className="font-bold">Code Barre (EAN13):</span>
           <p>{SingleProduct.codebarreEAN13}</p>
@@ -69,18 +68,18 @@ export default function SingleProductView() {
           <p>{SingleProduct.etat}</p>
           <span className="font-bold">quantité_minimal:</span>
           <p>{SingleProduct.quantité_minimal}</p>
-          
+
           {/* Add other details as needed */}
         </div>
 
         <div className="border border-black p-4 mb-4">
-            <h1>Prix par groupe de clients</h1>
-            <span className="font-bold">Grossite</span>
+          <h1>Prix par groupe de clients</h1>
+          <span className="font-bold">Grossite</span>
           <p>{SingleProduct.grossiste}</p>
         </div>
         <div className="border border-black p-4 mb-4">
-            <h1>Informations sur le colisage</h1>
-            <span className="font-bold">Colisage</span>
+          <h1>Informations sur le colisage</h1>
+          <span className="font-bold">Colisage</span>
           <p>{SingleProduct.coulissage}</p>
           <span className="font-bold">Dimensions ( L X L X H)</span>
           <p>{SingleProduct.coulissage}</p>

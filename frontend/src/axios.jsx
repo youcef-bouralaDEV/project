@@ -19,10 +19,10 @@ axiosClient.interceptors.response.use((response) => {
     localStorage.removeItem('Access')
     // window.location.reload();
   } else if (response.status === 404) {
-    console.log("not found from axios file");
+    console.log("not found from axios page");
   }
 
-  throw error;
+  throw new error;
 })
 
 export default axiosClient

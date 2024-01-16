@@ -1,19 +1,19 @@
-import React from "react";
-import { useGlobelContext } from "../Context";
-import { Navigate, Outlet, useNavigate } from "react-router-dom";
+import { useGlobelContext } from "../context/Context";
+import { Navigate, Outlet } from "react-router-dom";
 
 export default function GuestLayout() {
-  const { token, role } = useGlobelContext();
-
-  console.log("geust admin", role);
-
-  if (token && role === "admin") {
-    return <Navigate to={"admin/home"} />;
+  const { token, user } = useGlobelContext();
+console.log(user?.role);
+  if (token) {
+    // console.log(user?.role);
+    return user?.role === "admin" ? (
+      
+      <Navigate to="/admin/home" />
+    ) : (
+      <Navigate to="client/home" />
+    );
   }
-  else if (token && role === "user") {
-    return <Navigate to={"client/home"} />;
-  }
-  console.log("Geust token", token);
+
   return (
     <div>
       <Outlet />

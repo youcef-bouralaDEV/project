@@ -1,9 +1,12 @@
-import { useGlobelContext } from "../../../Context";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useGlobelContext } from "../../../context/Context";
 import axios from "../../../axios";
 import React, { useState } from "react";
 
 const AdminLogin = () => {
-  const { saveToken, setRole } = useGlobelContext();
+  const navigate = useNavigate();
+  const { saveToken, setRole, token, role } = useGlobelContext();
+ 
   const [errors, setErrors] = useState({
     email: "",
     password: "",
@@ -20,17 +23,17 @@ const AdminLogin = () => {
       const response = await axios.post("http://localhost:8000/api/login", {
         ...credentials,
       });
-      
-      const userRole = response.data["user"].roles.toString();
-      
+      console.log(response.data);
+      const userRole = response.data["user"].role.toString();
+
       if (response.status === 200 && userRole === "admin") {
         setRole(userRole);
-        console.log();
         saveToken(response.data.token);
-        console.log(response.data);
-        console.log("admin login ",userRole);
+        console.log("admin login ", response.data);
+        
+       
       } else {
-        // Display specific error for invalid role
+      
         setErrors({ message: "Provided email or password is incorrect" });
       }
     } catch (error) {
@@ -104,7 +107,6 @@ const AdminLogin = () => {
               >
                 Sign in
               </button>
-              
             </form>
           </div>
         </div>

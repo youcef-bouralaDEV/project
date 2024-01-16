@@ -25,7 +25,7 @@ class UserResource extends JsonResource
             'adresse' => $this->adresse,
             'wilaya' => $this->wilaya,
             'commune' => $this->commune,
-            'roles'     => $this->roles->pluck("name") ?? [],
+            'role'     => $this->roles->pluck("name")[0] ?? [],
             // 'permissions' => $this->permissions->pluck('name') ?? [],
             // 'roles.permissions' => $this->getPermissionsViaRoles()->pluck(['name']) ?? [],
 

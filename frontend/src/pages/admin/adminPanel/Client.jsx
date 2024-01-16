@@ -1,16 +1,18 @@
 import axios from "../../../axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useGlobelContext } from "../../../Context";
+import { useGlobelContext } from "../../../context/Context";
+import Sidebar from "../Sidebar";
+import Dashboardview from "../Dashboardview";
 
 export default function Client() {
-  const { getUser,user, loading } = useGlobelContext();
+  const { getClients, clients, loading } = useGlobelContext();
 
   useEffect(() => {
-    getUser();
+    getClients();
   }, []);
 
-console.log(user);
+  console.log(clients);
   const deleteUser = (id) => {
     if (!window.confirm("Are you sure you want to delete this user?")) {
       return;
@@ -20,9 +22,10 @@ console.log(user);
     } catch (err) {
       console.log(err);
     }
-    getUser();
+    getClients();
   };
   return (
+    <>
     <div className="relative overflow-x-auto p-6 my-5 shadow-md  bg-blue-100 sm:rounded-lg ">
       <Link to={"create"}>
         <button className="rounded bg-green-700 p-2 mb-1">Add New</button>
@@ -47,10 +50,12 @@ console.log(user);
         <tbody>
           {loading ? (
             <tr>
-              <td className="text-xl w-full text-center font-bold">...loading</td>
+              <td className="text-xl w-full text-center font-bold">
+                ...loading
+              </td>
             </tr>
-          ) : user && user.length > 0 ? (
-            user.map((u) => (
+          ) : clients && clients.length > 0 ? (
+            clients.map((u) => (
               <tr
                 key={u.id}
                 className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
@@ -93,5 +98,7 @@ console.log(user);
         </tbody>
       </table>
     </div>
+    </>
+
   );
 }

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\User;
+use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 
@@ -20,7 +22,7 @@ class ClientsController extends Controller
     {
         return UserResource::collection(User::query()->orderBy('id', 'desc')->paginate(10));
     }
-
+   
     /**
      * Store a newly created resource in storage.
      *
@@ -94,7 +96,13 @@ class ClientsController extends Controller
 
         return response("", 204);
     }
+    public function GetUser(Request $request)
+    {
+        $user = $request->user();
 
+        return response()->json(new UserResource($user));
+    }
+     
     public function GetClients()
     {
         $clients = User::whereHas('roles', function ($query) {

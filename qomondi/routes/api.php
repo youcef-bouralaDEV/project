@@ -19,23 +19,26 @@ use App\Http\Controllers\api\ProductsControllers;
 |
 */
 
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [UserController::class, 'logout']);
-    Route::put('/updateClient/{id}', [ClientsController::class , 'update']);
-    Route::post('/CreateClient', [ClientsController::class , 'create']);
-        Route::get('/GetClients', [ClientsController::class ,'GetClients']);
-    Route::get('/GetClient/{id}', [ClientsController::class ,'GetClient']);
-    Route::delete('/deleteClient/{id}', [ClientsController::class ,'destroy']);
 
-    Route::get('/getProduct/{id}' , [ProductsControllers::class ,'getProduct']);
-    Route::get('/getProducts' , [ProductsControllers::class ,'getProducts']);
-    Route::delete('/deleteProduct/{id}' , [ProductsControllers::class ,'deleteProduct']);
-    Route::get('/viewProduct/{id}' , [ProductsControllers::class ,'show']);
-    Route::post('/createProducts' , [ProductsControllers::class ,'store']);
-    Route::get('/getCategories' , [CategoryController::class ,'getCategories']);
-    Route::get('/getMarks' , [MarksController::class ,'getMarks']);
-    Route::put('/updateProduct/{id}' , [ProductsControllers::class ,'updateProduct']);
-    
+    Route::get('/GetUser', [ClientsController::class, 'GetUser']);
+
+    Route::put('/updateClient/{id}', [ClientsController::class, 'update']);
+    Route::post('/CreateClient', [ClientsController::class, 'create']);
+    Route::get('/GetClients', [ClientsController::class, 'GetClients']);
+    Route::get('/GetClient/{id}', [ClientsController::class, 'GetClient']);
+    Route::delete('/deleteClient/{id}', [ClientsController::class, 'destroy']);
+
+    Route::get('/getProduct/{id}', [ProductsControllers::class, 'getProduct']);
+    Route::get('/getProducts', [ProductsControllers::class, 'getProducts']);
+    Route::delete('/deleteProduct/{id}', [ProductsControllers::class, 'deleteProduct']);
+    Route::get('/viewProduct/{id}', [ProductsControllers::class, 'show']);
+    Route::post('/createProducts', [ProductsControllers::class, 'store']);
+    Route::get('/getCategories', [CategoryController::class, 'getCategories']);
+    Route::get('/getMarks', [MarksController::class, 'getMarks']);
+    Route::put('/updateProduct/{id}', [ProductsControllers::class, 'updateProduct']);
 });
 
 Route::post('login', [UserController::class, "login"]);

@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "../../../axios";
 import React, { useEffect, useState } from "react";
-import { useGlobelContext } from "../../../Context";
+import { useGlobelContext } from "../../../context/Context";
 
 export default function ProductForm() {
   const { categories, marks } = useGlobelContext();
@@ -49,7 +49,7 @@ export default function ProductForm() {
       setProductData((prev) => ({ ...prev, [name]: e.target.value }));
     }
   };
-  
+
   console.log("Update Product Data:", productData);
   const handleSubmit = async (e) => {
     e.preventDefault();

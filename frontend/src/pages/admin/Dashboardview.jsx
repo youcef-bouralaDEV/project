@@ -2,16 +2,15 @@ import React, { useState } from "react";
 import { IoSearchOutline } from "react-icons/io5";
 import { FaRegBell } from "react-icons/fa6";
 import profile from "../../assets/skills-01.jpg";
-import { useGlobelContext } from "../../Context";
+import { useGlobelContext } from "../../context/Context";
 
-const Dashboardview = ({onLogout}) => {
+const Dashboardview = ({ onLogout }) => {
+  const { user } = useGlobelContext();
+  const [open, setOpen] = useState(false);
 
-  // const {user} = useGlobelContext()
-  const [open, setOpen] = useState(false)
-  
-  const isopen =()=> {
-    setOpen(!open)
-  }
+  const isopen = () => {
+    setOpen(!open);
+  };
   // console.log(user);:
   return (
     <div className="flex items-center justify-between h-[70px] shadow-lg px-[25px] ">
@@ -33,10 +32,9 @@ const Dashboardview = ({onLogout}) => {
           onClick={isopen}
           className="flex items-center gap-[15px] relative "
         >
-          {/* <p>{user}</p> */}
           <div className="h-[50px] w-[50px] rounded-full bg-[#4E73DF] cursor-pointer flex items-center justify-center relative z-40">
             <img src={profile} alt="" />
-            {/* {user.name} */}
+            {user?.name}
           </div>
 
           {open && (
@@ -47,9 +45,9 @@ const Dashboardview = ({onLogout}) => {
               <p className="cursor-pointer hover:text-[blue] font-semibold">
                 Settings
               </p>
-              <p 
-              className="cursor-pointer hover:text-[blue] font-semibold"
-              onClick={onLogout}
+              <p
+                className="cursor-pointer hover:text-[blue] font-semibold"
+                onClick={onLogout}
               >
                 Log out
               </p>
