@@ -1,14 +1,11 @@
-import axios from "../../../axios";
+import axios from "../../../../axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useGlobelContext } from "../../../context/Context";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
-export default function SingleProductView() {
+export default function ProductDetails() {
   const [SingleProduct, setSingleProduct] = useState([]);
   const { id } = useParams();
-  const navigate = useNavigate();
-  console.log(id);
-
+  // console.log(SingleProduct)
   useEffect(() => {
     if (id) {
       try {
@@ -43,7 +40,7 @@ export default function SingleProductView() {
       <div className="flex justify-center items-center flex-col gap-4">
         <div className="border border-black p-4 mb-4 ">
           <span className="font-bold">Name:</span>
-          <span>{SingleProduct.nom}</span>
+          <span>{SingleProduct.name}</span>
 
           <span className="font-bold">Code:</span>
           <span>{SingleProduct.code}</span>
@@ -55,7 +52,7 @@ export default function SingleProductView() {
           <span className="font-bold">Code Barre (EAN13):</span>
           <p>{SingleProduct.codebarreEAN13}</p>
           <span className="font-bold">Catégorie:</span>
-          <p>{SingleProduct.category_id}</p>
+          <p>{SingleProduct.categoryName}</p>
           <span className="font-bold">Type:</span>
           <p>{SingleProduct.type}</p>
           <span className="font-bold">Prix:</span>
@@ -82,13 +79,19 @@ export default function SingleProductView() {
           <span className="font-bold">Colisage</span>
           <p>{SingleProduct.coulissage}</p>
           <span className="font-bold">Dimensions ( L X L X H)</span>
-          <p>{SingleProduct.coulissage}</p>
+          <p>{SingleProduct.uniteLongueur}</p>
           <span className="font-bold">Colisage:</span>
-          <p>{SingleProduct.coulissage}</p>
+          <p>{SingleProduct.width}</p>
           <span className="font-bold">Poids:</span>
           <p>{SingleProduct.Poid}</p>
         </div>
       </div>
+      <Link
+        to={"/admin/product"}
+        className="bg-blue-500 p-5 rounded text-white font-bold "
+      >
+        retour
+      </Link>
     </div>
   );
 }

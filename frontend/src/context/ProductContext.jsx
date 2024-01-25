@@ -14,6 +14,14 @@ export const ProductProvider = ({ children }) => {
   const [searchByEtat, setSearchByEtat] = useState("");
   const [categories, setCategories] = useState([]);
   const [marks, setMarks] = useState([]);
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(2000);
+
+  useEffect(() => {
+    getCategories();
+    getMarks();
+    getProducts();
+  }, []);
 
   const handleChanges = (e) => {
     const { name, value } = e.target;
@@ -36,20 +44,35 @@ export const ProductProvider = ({ children }) => {
       case "ref":
         setSearchByRef(value);
         break;
+      case "minPrice": 
+        setMinPrice(value);
+        break;
+      case "maxPrice":
+        setMaxPrice(value);
+        break;
       default:
         break;
     }
   };
+ 
   const handleFilterClick = () => {
     const filtered = products.filter((product) => {
       const categoryMatch =
         !selectedCategory ||
-        product.category_id.toString() === selectedCategory;
+        product.category.id.toString() === selectedCategory;
+        console.log(selectedCategory);
+        console.log(!selectedCategory || product.category.id.toString() === selectedCategory);
+
       const markMatch =
-        !selectedMark || product.mark_id.toString() === selectedMark;
+        !selectedMark || product.mark.id.toString() === selectedMark;
+        console.log("product.mark.id:", parseFloat(product.mark.id));
+        console.log("selectedMark:", parseFloat(selectedMark));
+        console.log("markMatch:", markMatch);
+
       const nameMatch =
         !searchName ||
         product.nom.toLowerCase().includes(searchName.toLowerCase());
+
       const etatMatch =
         !searchByEtat ||
         product.etat.toLowerCase() === searchByEtat.toLowerCase();
@@ -60,31 +83,45 @@ export const ProductProvider = ({ children }) => {
 
       const refMatch =
         !searchByRef || (product.ref && product.ref.toString()) === searchByRef;
-
+      const priceMatch =
+        (!minPrice || parseFloat(product.prix) >= parseFloat(minPrice)) &&
+        (!maxPrice || parseFloat(product.prix) <= parseFloat(maxPrice));
+        // console.log("product.price:", parseFloat(product.prix));
+        // console.log("minPrice:", parseFloat(minPrice));
+        // console.log("maxPrice:", parseFloat(maxPrice));
+        // console.log("priceMatch:", priceMatch);
       return (
         categoryMatch &&
         markMatch &&
         nameMatch &&
         etatMatch &&
         codeMatch &&
-        refMatch
+        refMatch &&
+        priceMatch
       );
     });
 
     setFiltredProducts(filtered);
-    console.log(filtredProducts);
+    console.log(filtered);
   };
 
-  //   console.log(products);
-  useEffect(() => {
-    getProducts();
-  }, []);
-
+  // console.log(filtredProducts);
+  const clearFilters = () => {
+    setSelectedCategory('');
+    setSelectedMark('');
+    setMinPrice(0);
+    setMaxPrice(2000);
+    setSearchByEtat(''),
+    setSearchByRef(null)
+    setSearchByCode(null)
+    setSearchName('')
+    handleFilterClick()
+  };
   const getProducts = async () => {
     setLaoding(true);
     try {
       let response = await axios.get("/getProducts");
-    //   console.log(response.data);
+        console.log(response.data);
       setLaoding(false);
       setProducts(response.data);
       setFiltredProducts(response.data);
@@ -94,9 +131,9 @@ export const ProductProvider = ({ children }) => {
   };
   const getCategories = async () => {
     try {
-      const response = await axios.get("/getCategories");
-      // console.log(response.data);
-      setCategories(response.data);
+      const response = await axios.get("/getCategory");
+      console.log(response.data.categories[0]);
+      setCategories(response.data.categories[0]);
     } catch (err) {
       console.log(err);
     }
@@ -110,11 +147,7 @@ export const ProductProvider = ({ children }) => {
       console.log(err);
     }
   };
-  useEffect(() => {
-    getCategories();
-    getMarks();
-    getProducts();
-  }, []);
+ 
   return (
     <ProductContx.Provider
       value={{
@@ -123,6 +156,7 @@ export const ProductProvider = ({ children }) => {
         filtredProducts,
         handleChanges,
         handleFilterClick,
+        clearFilters,
         searchName,
         searchByCode,
         searchByRef,
@@ -132,6 +166,8 @@ export const ProductProvider = ({ children }) => {
         selectedMark,
         categories,
         marks,
+        minPrice,
+        maxPrice
       }}
     >
       {children}

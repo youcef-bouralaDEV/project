@@ -22,8 +22,8 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->unsignedBigInteger('mark_id');
-            $table->foreign('mark_id')->references('id')->on('markes');
-            $table->string('nom');
+            $table->foreign('mark_id')->references('id')->on('marks');
+            $table->string('name');
             $table->integer('codebarreEAN13')->nullable();
             $table->integer('code')->nullable();
             $table->integer('ref')->nullable();

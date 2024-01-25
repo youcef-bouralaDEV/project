@@ -14,10 +14,10 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string('Nom');
-            $table->string('Icon')->nullable();
+            $table->string('name');
+            $table->string('icon')->nullable();
             $table->string('order')->nullable();
-            $table->string('Catégorie mére');
+            $table->string('catégorie_mére');
             $table->string('etat')->default(EtatEnum::Active);
             $table->timestamps();
         });

@@ -5,7 +5,7 @@ import React, { useState } from "react";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
-  const { saveToken, setRole, token, role } = useGlobelContext();
+  const { saveToken, token, role } = useGlobelContext();
  
   const [errors, setErrors] = useState({
     email: "",
@@ -23,13 +23,13 @@ const AdminLogin = () => {
       const response = await axios.post("http://localhost:8000/api/login", {
         ...credentials,
       });
-      console.log(response.data);
+      console.log(response.data?.user);
       const userRole = response.data["user"].role.toString();
 
       if (response.status === 200 && userRole === "admin") {
-        setRole(userRole);
+
         saveToken(response.data.token);
-        console.log("admin login ", response.data);
+        console.log("admin login ", response.data?.user);
         
        
       } else {
@@ -37,6 +37,12 @@ const AdminLogin = () => {
         setErrors({ message: "Provided email or password is incorrect" });
       }
     } catch (error) {
+
+
+
+
+
+      
       if (error.response && error.response.data.errors) {
         setErrors(error.response.data.errors);
       } else if (error.response && error.response.data.message) {

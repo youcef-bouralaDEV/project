@@ -1,55 +1,72 @@
-import React from 'react'
-import { MdDashboard ,MdOutlineShoppingCart } from "react-icons/md";
-import { IoMdPerson ,IoIosArrowForward } from "react-icons/io";
-import { Link} from 'react-router-dom';
+import React from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import { SiShopware } from 'react-icons/si';
+import { MdOutlineCancel } from 'react-icons/md';
 
 
-
+import { Admin_SideBar_links } from '../../data/dummy';
+import { useGlobelContext } from '../../context/Context';
 
 const Sidebar = () => {
-  
-    return (
-        <div className='bg-[#4E73DF] px-[25px] h-screen'>
-            <div className='px-[15px] py-[30px] flex items-center justify-center border-b-[1px] border-[#EDEDED]/[0.3]'>
-                <Link to={'/'} className='text-white text-[20px] leading-[24px] font-extrabold cursor-pointer'>Admin panel</Link>
-            </div>
-            <div className='flex items-center gap-[15px] py-[20px] border-b-[1px] border-[#EDEDED]/[0.3] cursor-pointer'>
-                <MdDashboard color='white' />
-                <p className='text-[14px] leading-[20px] font-bold text-white'>Dashboard</p>
-            </div>
-            <div className='pt-[15px] border-b-[1px] border-[#EDEDED]/[0.3]'>
-                <p className='text-[10px] font-exstrabold leading-[16px] text-white/[0.4]'> List</p>
-                <div className='flex items-center justify-between gap-[10px] py-[15px] cursor-pointer'>
-                    <div className='flex items-center gap-[10px]'>
-                    <MdOutlineShoppingCart color='white' />
+  const { currentColor, activeMenu, setActiveMenu, screenSize } = useGlobelContext();
 
-                        <Link to={"admin/product"} className='text-[14px] leading-[20px] font-normal text-white'>Product</Link>
+  const handleCloseSideBar = () => {
+    if (activeMenu !== undefined && screenSize <= 900) {
+      setActiveMenu(false);
+    }
+  };
 
-                    </div>
-                    <IoIosArrowForward color='white' />
-                </div>
-                <div className='flex items-center justify-between gap-[10px] py-[15px] cursor-pointer'>
-                    <div className='flex items-center gap-[10px]'>
-                    
-                    <IoMdPerson color='white' />
+  const activeLink = 'flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg  text-white  text-md m-2';
+  const normalLink = 'flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md text-gray-700 dark:text-gray-200 dark:hover:text-black hover:bg-light-gray m-2';
 
-                         <Link to={"admin/client"} className='text-[14px] leading-[20px] font-normal text-white'>Client</Link>
-                    </div>
-                    <IoIosArrowForward color='white' />
-                </div>
-                <div className='flex items-center justify-between gap-[10px] py-[15px] cursor-pointer'>
-                    <div className='flex items-center gap-[10px]'>
-                    
-                    <IoMdPerson color='white' />
-
-                         <Link to={"/adminLogin"} className='text-[14px] leading-[20px] font-normal text-white'>Login</Link>
-                    </div>
-                    <IoIosArrowForward color='white' />
-                </div>
-            </div>
+  return (
+    <div className="ml-3 h-screen md:overflow-hidden overflow-auto md:hover:overflow-auto pb-10">
+      {activeMenu && (
+        <>
+          <div className="flex justify-between items-center">
+            <Link to="/" onClick={handleCloseSideBar} className="items-center gap-3 ml-3 mt-4 flex text-xl font-extrabold tracking-tight dark:text-white text-slate-900">
+              <SiShopware /> <span>Shoppy</span>
+            </Link>
+           
+              <button
+                type="button"
+                onClick={() => setActiveMenu(!activeMenu)}
+                style={{ color: currentColor }}
+                className="text-xl rounded-full p-3 hover:bg-light-gray mt-4 block md:hidden"
+              >
+                <MdOutlineCancel />
+              </button>
       
-        </div>
-    )
-}
+          </div>
+          <div className="mt-10 ">
+            {Admin_SideBar_links.map((item) => (
+              <div key={item.title}>
+                <p className="text-gray-400 dark:text-gray-400 m-3 mt-4 uppercase">
+                  {item.title}
+                </p>
+                {item.links.map((link) => (
+                 
+                  <NavLink
+                    to={`/${link.path}`}
 
-export default Sidebar
+                    key={link.name}
+                    onClick={handleCloseSideBar}
+                    style={({ isActive }) => ({
+                      backgroundColor: isActive ? currentColor : '',
+                    })}
+                    className={({ isActive }) => (isActive ? activeLink : normalLink)}
+                  >
+                    {link.icon}
+                    <span className="capitalize ">{link.name}</span>
+                  </NavLink>
+                ))}
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+
+export default Sidebar;

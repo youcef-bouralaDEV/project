@@ -3,19 +3,63 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext();
 
+const initialState = {
+  chat: false,
+  cart: false,
+  userProfile: false,
+  notification: false,
+};
+
 export const AppProvider = ({ children }) => {
+  const [screenSize, setScreenSize] = useState(undefined);
+  const [currentColor, setCurrentColor] = useState("#03C9D7");
+  const [currentMode, setCurrentMode] = useState("Light");
+  const [themeSettings, setThemeSettings] = useState(false);
+  const [activeMenu, setActiveMenu] = useState(true);
+  const [isClicked, setIsClicked] = useState(initialState);
+
   const [user, setUser] = useState(null);
-  const [role, setRole] = useState([]);
   const [token, setToken] = useState(localStorage.getItem("Access"));
   const [clients, setClients] = useState(null);
   const [loading, setLoading] = useState(false);
-  
 
- 
+  //Adjust theme and color functions
+  // **************************************
+  const setMode = (e) => {
+    setCurrentMode(e.target.value);
+    localStorage.setItem("themeMode", e.target.value);
+  };
+
+  const setColor = (color) => {
+    setCurrentColor(color);
+    localStorage.setItem("colorMode", color);
+  };
+
+  const handleClick = (clicked) =>
+    setIsClicked({ ...initialState, [clicked]: true });
   useEffect(() => {
-    getClients();
     GetUser();
+    getClients();
   }, []);
+  // **************************************
+  //Adjust theme and color functions
+
+  const GetUser = async () => {
+    try {
+      let response = await axios.get("/GetUser", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setUser(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log(user?.role);
+
   const getClients = async () => {
     setLoading(true);
     try {
@@ -29,20 +73,6 @@ export const AppProvider = ({ children }) => {
       console.log(error);
     }
   };
-  const GetUser = async () => {
-    try {
-      let response = await axios.get("/GetUser", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setUser(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  console.log(user?.role);
 
   const saveToken = (token) => {
     setToken(token);
@@ -62,10 +92,25 @@ export const AppProvider = ({ children }) => {
         clients,
         loading,
         user,
-        setRole,
         getClients,
         saveToken,
         setToken,
+        currentColor,
+        currentMode,
+        activeMenu,
+        screenSize,
+        setScreenSize,
+        handleClick,
+        isClicked,
+        initialState,
+        setIsClicked,
+        setActiveMenu,
+        setCurrentColor,
+        setCurrentMode,
+        setMode,
+        setColor,
+        themeSettings,
+        setThemeSettings,
       }}
     >
       {children}

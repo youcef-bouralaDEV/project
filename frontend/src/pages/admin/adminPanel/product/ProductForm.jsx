@@ -1,17 +1,18 @@
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "../../../axios";
+import axios from "../../../../axios";
 import React, { useEffect, useState } from "react";
-import { useGlobelContext } from "../../../context/Context";
+import { useProductContext } from "../../../../context/ProductContext";
+
 
 export default function ProductForm() {
-  const { categories, marks } = useGlobelContext();
+  const { categories, marks } = useProductContext();
   const navigate = useNavigate();
   const { id } = useParams();
   const [productData, setProductData] = useState({
     id: null,
-    nom: "",
-    category_id: "",
-    mark_id: "",
+    name: "",
+    category_id: null,
+    mark_id: null,
     code: null,
     codebarreEAN13: null,
     ref: null,
@@ -36,7 +37,7 @@ export default function ProductForm() {
     Unité_poids: "",
     images: null,
   });
-  console.log("Update Product Data:", productData);
+  console.log("Update Product Data:", categories);
 
   const handleChanges = (e) => {
     const { name, files } = e.target;
@@ -50,41 +51,54 @@ export default function ProductForm() {
     }
   };
 
-  console.log("Update Product Data:", productData);
+  // console.log("Update Product Data:", productData);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (id) {
       try {
         const response = await axios.put(
           `updateProduct/${id}`,
-          productData,
+         { ...productData,
+          category_id: productData.category.id,
+          mark_id: productData.mark.id},
           //  {
           //   headers: {
           //     "Content-Type": "multipart/form-data",
           //   },
           // }
 
+          );
           navigate("/admin/product")
-        );
-        console.log(response.data);
+      
       } catch (err) {
         console.log(err);
       }
-      console.log("Update Product Data:", productData);
+      // console.log("Update Product Data:", productData);
     } else {
       try {
         const formData = new FormData();
         for (const key in productData) {
-          formData.append(key, productData[key]);
+          if (key === 'category' || key === 'mark') {
+            // If the key is 'category' or 'mark', append their 'id' property
+            formData.append(`${key}_id`, productData[key].id);
+          } else {
+            formData.append(key, productData[key]);
+          }
+        
         }
         await axios.post(`/createProducts`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
+
+
         });
-        console.log("create Product Data:", productData);
+        // console.log("create Product Data:", productData);
         navigate("/admin/product");
-      } catch (error) {
+        console.log(formData);
+      } 
+      catch (error) {
         console.error("Error creating product", error.message);
       }
       // console.log(formData);
@@ -103,7 +117,7 @@ export default function ProductForm() {
       }
     }
   }, []);
-  console.log(productData);
+ 
   return (
     <form
       // enctype="multipart/form-data"
@@ -115,9 +129,9 @@ export default function ProductForm() {
       <div className="w-72">
         <div className="relative w-full min-w-[200px] h-10">
           <input
-            name="nom"
+            name="name"
             className="peer w-full h-full bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-900"
-            value={productData.nom}
+            value={productData.name}
             onChange={handleChanges}
           />
           <label className="flex w-full h-full select-none pointer-events-none absolute left-0 font-normal !overflow-visible truncate peer-placeholder-shown:text-blue-gray-500 leading-tight peer-focus:leading-tight peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500 transition-all -top-1.5 peer-placeholder-shown:text-sm text-[11px] peer-focus:text-[11px] before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1 peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none before:transition-all peer-disabled:before:border-transparent after:content[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r peer-focus:after:border-r-2 after:pointer-events-none after:transition-all peer-disabled:after:border-transparent peer-placeholder-shown:leading-[3.75] text-gray-500 peer-focus:text-gray-900 before:border-blue-gray-200 peer-focus:before:!border-gray-900 after:border-blue-gray-200 peer-focus:after:!border-gray-900">
@@ -166,7 +180,7 @@ export default function ProductForm() {
         </div>
       </div>
       <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-        Catégorie
+        Catégorie 
       </label>
       <select
         required
@@ -178,11 +192,11 @@ export default function ProductForm() {
         <option value="">Sélectionnez...</option>
         {categories.map((category) => (
           <option key={category.id} value={category.id}>
-            {category.Nom}
+            {category.name}
           </option>
         ))}
       </select>
-
+     
       <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
         Marque
       </label>
@@ -191,7 +205,7 @@ export default function ProductForm() {
         name="mark_id"
         value={productData.mark_id}
         onChange={handleChanges}
-        id="mark"
+        
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
       >
         <option value="">Sélectionnez...</option>
@@ -284,7 +298,7 @@ export default function ProductForm() {
         </div>
         <div className="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
           <input
-            // checked={productData.category === "Indisponible"}
+            checked={productData.etat_du_stock === "Indisponible"}
             onChange={handleChanges}
             className="relative float-left -ml-[1.5rem] mr-1 mt-0.5 h-4 w-4  rounded-full border-2 border-solid border-neutral-300 "
             type="radio"
@@ -301,7 +315,7 @@ export default function ProductForm() {
         <div className="flex mb-[0.125rem] min-h-[1.5rem] pl-[1.5rem]">
           <input
             name="etat_du_stock"
-            // checked={productData.etat === "Disponible Prochainement"}
+            checked={productData.etat === "Disponible Prochainement"}
             onChange={handleChanges}
             className="relative float-left -ml-[1.5rem] mr-1 mt-0.5 h-4 w-4  rounded-full border-2 border-solid border-neutral-300 "
             type="radio"

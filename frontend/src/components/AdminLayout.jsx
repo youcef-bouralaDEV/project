@@ -1,71 +1,96 @@
-import React, { useEffect, useState } from 'react';
-import Dashboardview from "../pages/admin/Dashboardview";
+import { useEffect, useState } from "react";
+import Dashboardview from "../pages/admin/NavBar";
 import Sidebar from "../pages/admin/Sidebar";
-import { useGlobelContext } from '../context/Context';
-import axios from '../axios';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { useGlobelContext } from "../context/Context";
+import axios from "../axios";
+import { Outlet, useNavigate } from "react-router-dom";
+import Navbar from "../pages/admin/NavBar";
+import { FiSettings } from "react-icons/fi";
 
-export default function AdminLayout() {
-  const { token, saveToken, user } = useGlobelContext();
-  const navigate = useNavigate();
+function AdminLayout() {
+  const { token, saveToken, user, activeMenu } = useGlobelContext();
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+  console.log("admin layout", user?.role);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (token) {
-          const response = await axios.get("/GetUser"); 
-          if (response.data.role === "admin") {
-            console.log(response.data.role);
-            setIsLoading(false);
-          } else {
-            console.log(response.data.role);
-            
-            navigate("/client/home");
-          }
+    try {
+      if (token) {
+        if (user?.role === "admin") {
+          console.log(user?.role);
+          setIsLoading(false);
         } else {
-          navigate("/adminlogin");
+          console.log(user?.role);
+          // navigate("/client/home");
         }
-      } catch (error) {
-        console.error("Error checking authentication:", error);
-        setIsLoading(false);
+      } else {
+        navigate("/adminlogin");
       }
-    };
+    } catch (error) {
+      console.error("Error checking authentication:", error);
+      setIsLoading(false);
+    }
+  }, [user?.role]);
 
-    fetchData();
-  }, []);
- 
-  
   const onLogout = async (ev) => {
     ev.preventDefault();
     try {
       await axios.post("/logout");
       saveToken(null);
-      // navigate("/adminlogin");
+      navigate("/adminlogin");
     } catch (error) {
       console.error("Logout failed:", error);
     }
   };
 
   if (isLoading) {
-    // You can show a loading spinner or some indicator while checking authentication
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center justify-center">
+        admin layout
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-red-500"></div>
+      </div>
+    );
   }
-console.log(user?.role);
+  // console.log(user?.role);
   return (
-    <>
+    <div>
+      <div className="flex relative dark:bg-main-dark-bg">
+        <div className="fixed right-4 bottom-4" style={{ zIndex: "1000" }}>
       
-        <div className="flex overflow-scroll ">
-          <div className="basis-[12%] h-[100vh]">
+            <button
+              type="button"
+              onClick={() => setThemeSettings(true)}
+              style={{ background: "blue" }}
+              className="text-3xl text-white p-3 hover:drop-shadow-xl hover:bg-light-gray"
+            >
+              <FiSettings />
+            </button>
+          
+        </div>
+        {activeMenu ? (
+          <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
             <Sidebar />
           </div>
-          <div className="basis-[88%] border overflow-scroll h-[100vh]">
-            <Dashboardview onLogout={onLogout} />
-           <Outlet/>
+        ) : (
+          <div className="w-0 dark:bg-secondary-dark-bg">
+            <Sidebar />
           </div>
+        )}
+        <div
+          className={
+            activeMenu
+              ? "dark:bg-main-dark-bg  bg-main-bg min-h-screen md:ml-72 w-full  "
+              : "bg-main-bg dark:bg-main-dark-bg  w-full min-h-screen flex-2 "
+          }
+        >
+          <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
+            <Navbar />
+          </div>
+          <Outlet />
         </div>
-    
-   
-    </>
+      </div>
+    </div>
   );
 }
+
+export default AdminLayout;

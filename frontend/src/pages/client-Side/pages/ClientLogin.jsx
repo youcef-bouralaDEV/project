@@ -1,9 +1,11 @@
-import { useGlobelContext } from "../../context/Context";
-import axios from "../../axios";
+import { useGlobelContext } from "../../../context/Context";
+import axios from "../../../axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ClientLogin = () => {
-  const { saveToken, setRole } = useGlobelContext();
+  const navigate = useNavigate();
+  const { saveToken } = useGlobelContext();
   const [errors, setErrors] = useState({
     email: "",
     password: "",
@@ -26,8 +28,7 @@ const ClientLogin = () => {
       const userRole = response.data["user"].role.toString();
       if (response.status === 200 && userRole === "user") {
         saveToken(response.data.token);
-        console.log("userRole", userRole);
-        setRole(userRole);
+        //  navigate("/client/home")
       } else {
         // Display specific error for invalid role
         setErrors({ message: "Provided email or password is incorrect" });
@@ -108,7 +109,6 @@ const ClientLogin = () => {
               >
                 Connecter
               </button>
-             
             </form>
           </div>
         </div>

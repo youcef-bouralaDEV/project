@@ -1,7 +1,7 @@
-import axios from "../../../axios";
+import axios from "../../../../axios";
 import React, { useEffect, useState } from "react";
-import { Link} from "react-router-dom";
-import { useProductContext } from "../../../context/ProductContext";
+import { Link } from "react-router-dom";
+import { useProductContext } from "../../../../context/ProductContext";
 
 export default function ProductHome() {
   const {
@@ -19,8 +19,9 @@ export default function ProductHome() {
     selectedMark,
     categories,
     marks,
+    clearFilters
   } = useProductContext();
-
+  // console.log(filtredProducts);
   const deleteProduct = (id) => {
     console.log(id);
     try {
@@ -31,7 +32,6 @@ export default function ProductHome() {
     }
   };
 
-  console.log();
   return (
     <div className="py-5">
       <div className="max-w-screen-md mx-auto p-4 border border-gray-300">
@@ -56,7 +56,7 @@ export default function ProductHome() {
                 <option value="">Select Category</option>
                 {categories.map((category) => (
                   <option key={category.id} value={category.id}>
-                    {category.Nom}
+                    {category.name}
                   </option>
                 ))}
               </select>
@@ -161,13 +161,20 @@ export default function ProductHome() {
           </div>
 
           {/* Submit Button */}
-          <div className="mt-4">
+          <div className="mt-4 flex justify-between">
             <button
               onClick={handleFilterClick}
               type="button"
               className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
             >
               Filter Products
+            </button>
+            <button
+              onClick={clearFilters}
+              type="button"
+              className="bg-red-500 text-white p-2 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
+            >
+              clearFilters
             </button>
           </div>
         </form>
@@ -204,9 +211,8 @@ export default function ProductHome() {
                   ...loading
                 </td>
               </tr>
-            ) : filtredProducts ? (
+            ) : filtredProducts.length > 0 ? (
               filtredProducts.map((product) => {
-                const { category_id: category } = product;
                 return (
                   <tr
                     key={product.id}
@@ -226,13 +232,13 @@ export default function ProductHome() {
                     <td>
                       <div>
                         {product.nom}
-                        <div>{`category : ${category}`}</div>
+                        <div>{`category : ${product.category.name}`}</div>
                         <div>{`code : ${product.code}`}</div>
                         <div>{`ref :${product.ref}`}</div>
                       </div>
                     </td>
 
-                    <td className="px-6 py-4">{product.type_id}</td>
+                    <td className="px-6 py-4">{product.mark.name}</td>
                     <td className="px-6 py-4">{product.etat}</td>
                     <td className="px-6 py-4">
                       <Link
@@ -260,7 +266,7 @@ export default function ProductHome() {
               })
             ) : (
               <tr>
-                <td colSpan="4">No users available</td>
+                <td colSpan="4">No product available</td>
               </tr>
             )}
           </tbody>

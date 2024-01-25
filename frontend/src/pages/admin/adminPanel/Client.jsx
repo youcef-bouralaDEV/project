@@ -1,12 +1,14 @@
 import axios from "../../../axios";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { useGlobelContext } from "../../../context/Context";
-import Sidebar from "../Sidebar";
-import Dashboardview from "../Dashboardview";
+import Header from "./components/Header";
+import Table from "./components/Table";
 
 export default function Client() {
-  const { getClients, clients, loading } = useGlobelContext();
+  const { getClients, clients } = useGlobelContext();
+  const selectionsettings = { persistSelection: true };
+  const toolbarOptions = ["Delete"];
+  const editing = { allowDeleting: true, allowEditing: true };
 
   useEffect(() => {
     getClients();
@@ -25,80 +27,12 @@ export default function Client() {
     getClients();
   };
   return (
-    <>
-    <div className="relative overflow-x-auto p-6 my-5 shadow-md  bg-blue-100 sm:rounded-lg ">
-      <Link to={"create"}>
-        <button className="rounded bg-green-700 p-2 mb-1">Add New</button>
-      </Link>
-      <table className="w-full text-sm text-left rtl:text-right  text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <tr>
-            <th scope="col" className="px-6 py-3">
-              Id
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Name
-            </th>
-            <th scope="col" className="px-6 py-3">
-              email
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Action
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {loading ? (
-            <tr>
-              <td className="text-xl w-full text-center font-bold">
-                ...loading
-              </td>
-            </tr>
-          ) : clients && clients.length > 0 ? (
-            clients.map((u) => (
-              <tr
-                key={u.id}
-                className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
-              >
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                >
-                  {u.id}
-                </th>
-                <td className="px-6 py-4"> {u.name}</td>
-                <td className="px-6 py-4"> {u.email}</td>
-                <td className="px-6 py-4">
-                  <Link
-                    to={"/admin/client/" + u.id}
-                    className="font-medium text-white bg-blue-600  p-2 rounded hover:underline mr-2"
-                  >
-                    Edit
-                  </Link>
-                  <Link
-                    to={"/admin/client/" + u.id}
-                    className="font-medium text-white bg-blue-600  p-2 rounded hover:underline mr-2"
-                  >
-                    View
-                  </Link>
-                  <button
-                    onClick={() => deleteUser(u.id)}
-                    className="font-medium text-white bg-red-600 p-2 rounded hover:underline"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="4">No users available</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </div>
-    </>
+    <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
+      <Header category="Pag" title="Custom" />
+   
+        <Table loading={clients ? clients.length : 0} rows={clients}  />
 
+   
+    </div>
   );
 }

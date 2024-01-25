@@ -22,17 +22,19 @@ class StoreProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nom' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'category_id' => 'required|integer',
             'mark_id' => 'required|integer',
+            'quantity' => 'nullable|numeric',
             'prix' => 'nullable|numeric',
             'etat_du_stock' => 'required|string|max:255',
             'etat' => 'required|string|max:255',
             'images' => 'required',
-            'quantity' => 'nullable|numeric',
              'ref' => 'nullable|numeric|max:255',
             'code' => 'nullable|numeric|max:255',
-            // 'codebarreEAN13' => 'nullable|max:255|numeric',
+            'coulissage' => 'nullable|string|max:255',
+
+            'codebarreEAN13' => 'nullable|max:255|numeric',
 
 
 
@@ -56,7 +58,6 @@ class StoreProductRequest extends FormRequest
             //  'commande_Colis' => 'string|max:255',
             //  'Unité_poids' => 'required|string|max:255',
             // 'prix_dachat' => 'numeric',
-            // 'coulissage' => 'nullable|string|max:255',
             // 'uniteLongueur' => 'string|max:255',
             // 'height' => 'nullable|numeric',
             // 'length' => 'nullable|numeric',
