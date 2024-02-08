@@ -25,6 +25,7 @@ class Product extends Model implements HasMedia
         'codebarreEAN13',
         'ref',
         'quantity',
+        "raison_social",
         'quantité_minimal',
         'prix',
         'prix_dachat',

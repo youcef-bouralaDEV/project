@@ -12,7 +12,7 @@ const initialState = {
 
 export const AppProvider = ({ children }) => {
   const [screenSize, setScreenSize] = useState(undefined);
-  const [currentColor, setCurrentColor] = useState("#03C9D7");
+  const [currentColor, setCurrentColor] = useState("#fe6d33");
   const [currentMode, setCurrentMode] = useState("Light");
   const [themeSettings, setThemeSettings] = useState(false);
   const [activeMenu, setActiveMenu] = useState(true);
@@ -22,6 +22,8 @@ export const AppProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("Access"));
   const [clients, setClients] = useState(null);
   const [loading, setLoading] = useState(false);
+
+
 
   //Adjust theme and color functions
   // **************************************
@@ -37,28 +39,29 @@ export const AppProvider = ({ children }) => {
 
   const handleClick = (clicked) =>
     setIsClicked({ ...initialState, [clicked]: true });
-  useEffect(() => {
-    GetUser();
-    getClients();
-  }, []);
-  // **************************************
-  //Adjust theme and color functions
+    // **************************************
+    //Adjust theme and color functions
+    
+    useEffect(() => {
+      GetUser();
+      getClients();
+    }, []);
 
   const GetUser = async () => {
     try {
-      let response = await axios.get("/GetUser", {
+      const response = await axios.get("/GetUser", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
       setUser(response.data);
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
       console.log(error);
     }
   };
-  console.log(user?.role);
+  // console.log(user?.role);
 
   const getClients = async () => {
     setLoading(true);
@@ -84,6 +87,7 @@ export const AppProvider = ({ children }) => {
     }
   };
 
+ 
   // console.log(marks);
   return (
     <AuthContext.Provider

@@ -28,9 +28,9 @@ class StoreProductRequest extends FormRequest
             'quantity' => 'nullable|numeric',
             'prix' => 'nullable|numeric',
             'etat_du_stock' => 'required|string|max:255',
-            'etat' => 'required|string|max:255',
+            'etat' => 'required|string|max:25',
             'images' => 'required',
-             'ref' => 'nullable|numeric|max:255',
+            'ref' => 'nullable|numeric|max:255',
             'code' => 'nullable|numeric|max:255',
             'coulissage' => 'nullable|string|max:255',
 

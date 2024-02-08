@@ -16,18 +16,25 @@ class UserSeeder extends Seeder
     {
         $admin = User::create([
             'name' => 'admin',
+            'raison_social'=> '123',
             'lastname' => 'admin1',
             'username' => 'admin1',
+            'mobile'=> "0555555",
             'email' => 'admin@g',
+            'wilaya'=> 'alger',
+            'commune'=>"alger",
             'password' => bcrypt('123')
         ]);
         $user = User::create([
             'name' => 'user',
+            'raison_social'=> '123',
             'lastname' => 'user',
             'username' => 'user',
             'email' => 'user@g',
+            'mobile'=> "0555555",
             'groupe' => 'one',
-            'adresse' => 'alger',
+            'wilaya'=> 'alger',
+            'commune'=>"alger",
             'password' => bcrypt('123')
         ]);
 

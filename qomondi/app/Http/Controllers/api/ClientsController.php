@@ -22,7 +22,7 @@ class ClientsController extends Controller
     {
         return UserResource::collection(User::query()->orderBy('id', 'desc')->paginate(10));
     }
-   
+
     /**
      * Store a newly created resource in storage.
      *
@@ -102,7 +102,7 @@ class ClientsController extends Controller
 
         return response()->json(new UserResource($user));
     }
-     
+
     public function GetClients()
     {
         $clients = User::whereHas('roles', function ($query) {
@@ -122,7 +122,21 @@ class ClientsController extends Controller
 
         return response()->json(new UserResource($client));
     }
+    public function toggleClientState($id)
+    {
 
+        $client = User::find($id);
+
+
+        $toggleState = trim($client->etat) === 'Active' ? 'Inactive' : 'Active';
+        $client->update(['etat' => $toggleState]);
+
+        return response()->json([
+            'message' => 'Client state toggled successfully',
+            'etat' =>$toggleState,
+            'is_active' => $toggleState ==='Active',
+        ]);
+    }
     // public function options()
     // {
     //     return response()->json([], 204)

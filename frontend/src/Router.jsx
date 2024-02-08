@@ -4,10 +4,10 @@ import NotFound from "./pages/NotFound.jsx";
 import Home from "./pages/admin/Home.jsx";
 import Dashboardview from "./pages/admin/NavBar.jsx";
 import AdminLogin from "./pages/admin/adminAuth/AdminLogin.jsx";
-import Client from "./pages/admin/adminPanel/Client.jsx";
+import Client from "./pages/admin/adminPanel/client/Client.jsx";
 import ClientDashBoard from "./pages/client-Side/pages/ClientDashBoard.jsx";
 import ClientLogin from "./pages/client-Side/pages/ClientLogin.jsx";
-import UserForm from "./pages/admin/adminPanel/UserForm.jsx";
+import UserForm from "./pages/admin/adminPanel/client/UserForm.jsx";
 import ProductHome from "./pages/admin/adminPanel/product/ProductHome.jsx";
 import ProductForm from "./pages/admin/adminPanel/product/ProductForm.jsx";
 import ProductView from "./pages/admin/adminPanel/product/ProductDetails.jsx";
@@ -15,10 +15,11 @@ import AdminLayout from "./components/AdminLayout.jsx";
 import ClientLayout from "./components/ClientLayout.jsx";
 import ViewCategory from "./pages/admin/adminPanel/category/ViewCategory.jsx";
 import ProductCardDetails from "./pages/client-Side/pages/productCardDetails.jsx";
+import ClientDetailsView from "./pages/admin/adminPanel/client/ClientDetailsView.jsx";
 
 const router = createBrowserRouter([
   {
-    path: "/admin",
+    path: "admin",
     element: <AdminLayout />,
     children: [
       {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
         element: <UserForm />,
       },
       {
+        path: "client/clientDetailsView/:id",
+        element: <ClientDetailsView />,
+      },
+      {
         path: "product",
         element: <ProductHome />,
       },
@@ -50,6 +55,7 @@ const router = createBrowserRouter([
         path: "product/:id",
         element: <ProductForm />,
       },
+
       {
         path: "product/view/:id",
         element: <ProductView />,

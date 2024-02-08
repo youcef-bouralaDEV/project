@@ -22,13 +22,22 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'raison_social' => $this->raison_social,
             'groupe' => $this->groupe,
-            'adresse' => $this->adresse,
+            'region' => $this->region,
+            'seuil_paiement' => $this->seuil_paiement,
+            'mobile' => $this->mobile,
+            'mobile_2' => $this->mobile_2,
+            'tel_fix' => $this->tel_fix,
+            'fax' => $this->fax,
+            'coordonnees_fiscales' => $this->coordonnees_fiscales,
+            'registre_commerce' => $this->registre_commerce,
+            'num_identite_fiscal' => $this->num_identite_fiscal,
+            'num_identite_statistique' => $this->num_identite_statistique,
+            'article_imposition' => $this->article_imposition,
             'wilaya' => $this->wilaya,
             'commune' => $this->commune,
             'role'     => $this->roles->pluck("name")[0] ?? [],
-            // 'permissions' => $this->permissions->pluck('name') ?? [],
-            // 'roles.permissions' => $this->getPermissionsViaRoles()->pluck(['name']) ?? [],
-
+            'etat' => $this->etat,
+            
         ];
     }
 }

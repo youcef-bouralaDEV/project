@@ -1,6 +1,7 @@
 import axios from "../../../../axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import Header from "../components/Header";
 
 export default function ProductDetails() {
   const [SingleProduct, setSingleProduct] = useState([]);
@@ -31,6 +32,7 @@ export default function ProductDetails() {
       className="container mx-auto my-8 p-6 
      rounded-md"
     >
+      <Header/>
       <h2 className="text-2xl font-semibold text-white mb-4">
         SingleProduct Details
       </h2>

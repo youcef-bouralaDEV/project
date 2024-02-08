@@ -26,15 +26,25 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:55',
+            'username' => 'nullable|string|max:55',
             'lastname' => 'required|string|max:55',
-            'username' => 'string|max:55',
             'email' => 'required|email|unique:users,email,' .$this->id,
-            'raison_social' => 'string|max:55',
-            'groupe' => 'string|max:55',
-            'adresse' => 'required|string|max:55',
-            'wilaya' => 'string|max:55',
-            'commune' => 'string|max:55',
-            // 'password' => 'required',
+            'raison_social' => 'required|string|max:55',
+            'groupe' => 'nullable|string|max:55',
+            'region' => 'nullable|string|max:55',
+            'seuil_paiement' => 'nullable|numeric|between:0,99999999.99',
+            'mobile' => 'numeric|digits_between:1,10',
+            'mobile_2' =>'nullable|numeric|digits_between:1,10',
+            'tel_fix' => 'nullable|numeric|digits_between:1,10',
+            'fax' => 'nullable|numeric|digits_between:1,10',
+            'num_identite_fiscal' => 'nullable|numeric',
+            'registre_commerce' => 'nullable|string|max:255',
+            'num_identite_statistique' => 'nullable|numeric|digits_between:1,100',
+            'article_imposition' => 'nullable|string|max:255',
+            'adresse' => 'nullable|string|max:255',
+            'wilaya' => 'required|string|max:55',
+            'commune' => 'required|string|max:55',
+            'password' => 'required',
         ];
     }
 }

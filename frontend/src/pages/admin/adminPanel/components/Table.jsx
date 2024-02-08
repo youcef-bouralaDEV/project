@@ -1,36 +1,38 @@
-import * as React from 'react';
-import { DataGrid } from '@mui/x-data-grid';
+import * as React from "react";
+import { DataGrid ,GridToolbar } from "@mui/x-data-grid";
+import { Link } from "react-router-dom";
+import { FaRegEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 
-const columns = [
-  { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'name', headerName: 'Name', width: 130 },
-  { field: 'email', headerName: 'Email', width: 130 },
-  {
-    field: 'adresse',
-    headerName: 'Adresse',
-    width: 90,
-  },
-  {
-    field: 'willaya',
-    headerName: 'Willaya',
-    width: 160,
-  },
-];
 
-export default function Table({rows}) {
+export default function Table({ rows, columns ,actionColumn ,deleteUser}) 
+{
+ 
   const rowsData = rows || [];
   return (
-    <div style={{ height: 160, width: '100%' }}>
-      <DataGrid 
+    <div  style={{  height: '100%', width: "100%" }}>
+      <DataGrid
         rows={rowsData}
-        columns={columns}
+        columns={columns.concat(actionColumn)}
+      
         initialState={{
           pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
+            paginationModel: { page: 0, pageSize: 10 },
           },
         }}
-        pageSizeOptions={[5, 10]}
+        pageSizeOptions={[10,20]}
         checkboxSelection
+        slots={{ toolbar: GridToolbar }}
+        slotProps={{
+          toolbar: {
+            showQuickFilter: true,
+            quickFilterProps: { debounceMs: 500 },
+          },
+        }}
+        disableRowSelectionOnClick
+        disableColumnFilter
+        disableDensitySelector
+        disableColumnSelector
       />
     </div>
   );

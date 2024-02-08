@@ -60,18 +60,19 @@ export const ProductProvider = ({ children }) => {
       const categoryMatch =
         !selectedCategory ||
         product.category.id.toString() === selectedCategory;
-        console.log(selectedCategory);
-        console.log(!selectedCategory || product.category.id.toString() === selectedCategory);
+        // console.log(selectedCategory);
+        // console.log(!selectedCategory || product.category.id.toString() === selectedCategory);
 
       const markMatch =
         !selectedMark || product.mark.id.toString() === selectedMark;
-        console.log("product.mark.id:", parseFloat(product.mark.id));
-        console.log("selectedMark:", parseFloat(selectedMark));
-        console.log("markMatch:", markMatch);
+       
 
       const nameMatch =
         !searchName ||
-        product.nom.toLowerCase().includes(searchName.toLowerCase());
+        product.name.toLowerCase().includes(searchName.toLowerCase());
+        console.log("product.name:", (product.name));
+        console.log("searchName:",(searchName));
+        console.log("markMatch:", nameMatch);
 
       const etatMatch =
         !searchByEtat ||
@@ -102,7 +103,7 @@ export const ProductProvider = ({ children }) => {
     });
 
     setFiltredProducts(filtered);
-    console.log(filtered);
+    // console.log(filtered);
   };
 
   // console.log(filtredProducts);
@@ -121,7 +122,7 @@ export const ProductProvider = ({ children }) => {
     setLaoding(true);
     try {
       let response = await axios.get("/getProducts");
-        console.log(response.data);
+        // console.log(response.data);
       setLaoding(false);
       setProducts(response.data);
       setFiltredProducts(response.data);
@@ -132,7 +133,7 @@ export const ProductProvider = ({ children }) => {
   const getCategories = async () => {
     try {
       const response = await axios.get("/getCategory");
-      console.log(response.data.categories[0]);
+      // console.log(response.data.categories[0]);
       setCategories(response.data.categories[0]);
     } catch (err) {
       console.log(err);

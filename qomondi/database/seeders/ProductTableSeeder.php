@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Product;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Faker\Factory as Faker;
 
 class ProductTableSeeder extends Seeder
 {
@@ -13,51 +13,30 @@ class ProductTableSeeder extends Seeder
      */
     public function run(): void
     {
-        Product::create([
-            'category_id' => 1, 
-            'images' => json_encode(['path/to/image1.jpg', 'path/to/image2.jpg']),
-            'type_id' => 1,
-            'nom' => 'Product 1',
-            'code' => 123,
-            'codebarreEAN13' => 98723,
-            'ref' => 'REF123',
-            'quantity' => 100,
-            'quantité_minimal' => 10,
-            'prix' => 19.99,
-            'etat' => 'active', // Or use EtatEnum::Active
-            'etat_du_stock' => 'Disponible', // Or use EtatDuStockEnum::Disponible
-            'commande_Colis' => 'Par_Defaut', // Or use CommandeParColisEnum::Par_Defaut
-            'prix_dachat' => 15.50,
-            'grossiste' => 18.00,
-            'coulissage' => 'Coulissage Value',
-            'height' => 10.5,
-            'length' => 20.2,
-            'width' => 15.8,
-            'description' => 'Product description goes here',
-        ]);
-        Product::create([
-            'category_id' => 1, 
-            'images'=> json_encode(['path/image2.png']),
-            'type_id' => 1,
-            'nom' => 'Product 2',
-            'code' => 456,
-            'codebarreEAN13' => 10000,
-            'ref' => 'REF456',
-            'quantity' => 320,
-            'quantité_minimal' => 10,
-            'prix' => 19.99,
-            'prix_dachat' => 15.50,
-            'etat' => 'inactive', // Or use EtatEnum::Active
-            'etat_du_stock' => 'Indisponible', // Or use EtatDuStockEnum::Disponible
-            'commande_Colis' => 'oui', // Or use CommandeParColisEnum::Par_Defaut
-            'grossiste' => 18.00,
-            'coulissage' => 'Coulissage Value',
-            'height' => 10.5,
-            'length' => 20.2,
-            'width' => 15.8,
-            'description' => 'Product description goes here',
-        ]);
+        $faker = Faker::create();
 
-        
+        for ($i = 0; $i < 50; $i++) { // Generate 10 fake products, adjust the number as needed
+            Product::create([
+                'category_id' => $faker->numberBetween(1, 3),
+                'mark_id' => $faker->numberBetween(1, 3),
+                'name' => $faker->word,
+                'code' => $faker->unique()->randomNumber(3),
+                'codebarreEAN13' => $faker->unique()->randomNumber(5),
+                'ref' =>$faker->unique()->randomNumber(3),
+                'quantity' => $faker->numberBetween(10, 1000),
+                'quantité_minimal' => $faker->numberBetween(1, 50),
+                'prix' => $faker->randomFloat(2, 5, 100),
+                'etat' => $faker->randomElement(['Active', 'Inactive']),
+                'etat_du_stock' => $faker->randomElement(['Disponible', 'Indisponible']),
+                'commande_Colis' => $faker->randomElement(['Par_Defaut', 'oui']),
+                'prix_dachat' => $faker->randomFloat(2, 1, 50),
+                'grossiste' => $faker->randomFloat(2, 1, 50),
+                'coulissage' => $faker->word,
+                'height' => $faker->randomFloat(2, 5, 50),
+                'length' => $faker->randomFloat(2, 10, 100),
+                'width' => $faker->randomFloat(2, 5, 50),
+                'description' => $faker->sentence,
+            ]);
+        }
     }
 }

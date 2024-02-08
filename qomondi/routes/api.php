@@ -1,12 +1,12 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\MarksController;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\MarksController;
 use App\Http\Controllers\api\ClientsController;
+use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\api\ProductsControllers;
+use App\Http\Controllers\api\WilayaCommuneController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +30,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/GetClients', [ClientsController::class, 'GetClients']);
     Route::get('/GetClient/{id}', [ClientsController::class, 'GetClient']);
     Route::delete('/deleteClient/{id}', [ClientsController::class, 'destroy']);
-
+    Route::put('/toggleClientState/{id}', [ClientsController::class, 'toggleClientState']);
+    
     Route::get('/getProduct/{id}', [ProductsControllers::class, 'getProduct']);
     Route::get('/getProducts', [ProductsControllers::class, 'getProducts']);
     Route::delete('/deleteProduct/{id}', [ProductsControllers::class, 'deleteProduct']);
@@ -42,6 +43,10 @@ Route::middleware('auth:sanctum')->group(function () {
     //category routes
     Route::get('/getCategories', [CategoryController::class, 'index']);
     Route::get('/getCategory', [CategoryController::class, 'index']);
+    
+    //willaya and commune routes
+    Route::get('/getWilayasAndCommunes', [WilayaCommuneController::class, 'getWilayasAndCommunes']);
+
 });
 
 Route::post('login', [UserController::class, "login"]);

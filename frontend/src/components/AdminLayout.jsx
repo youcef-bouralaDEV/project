@@ -11,16 +11,16 @@ function AdminLayout() {
   const { token, saveToken, user, activeMenu } = useGlobelContext();
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-  console.log("admin layout", user?.role);
+  // console.log("admin layout", user?.role);
 
   useEffect(() => {
     try {
       if (token) {
         if (user?.role === "admin") {
-          console.log(user?.role);
+          // console.log(user?.role);
           setIsLoading(false);
         } else {
-          console.log(user?.role);
+          // console.log(user?.role);
           // navigate("/client/home");
         }
       } else {
@@ -54,7 +54,7 @@ function AdminLayout() {
   // console.log(user?.role);
   return (
     <div>
-      <div className="flex relative dark:bg-main-dark-bg">
+      <div className="flex relative ">
         <div className="fixed right-4 bottom-4" style={{ zIndex: "1000" }}>
       
             <button
@@ -68,11 +68,11 @@ function AdminLayout() {
           
         </div>
         {activeMenu ? (
-          <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
+          <div className="w-72 fixed sidebar bg-white ">
             <Sidebar />
           </div>
         ) : (
-          <div className="w-0 dark:bg-secondary-dark-bg">
+          <div className="w-0">
             <Sidebar />
           </div>
         )}

@@ -44,7 +44,8 @@ class User extends Authenticatable
         'article_imposition',
         'adresse',
         'wilaya',
-        'commune'
+        'commune',
+        'etat'
     ];
 
 
@@ -77,6 +78,7 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
+
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];

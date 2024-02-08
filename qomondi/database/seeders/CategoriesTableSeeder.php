@@ -14,10 +14,31 @@ class CategoriesTableSeeder extends Seeder
     public function run(): void
     {
         Category::create([
-            'Nom' => 'Category 1',
+            'name' => 'T-shirt',
             'Icon' => 'icon1.png',
             'order' => 1,
-            'Catégorie mére' => 'Parent Category',
+            'catégorie_mére' => 'clothes',
+            'etat' => 'Active',
+        ]);
+        Category::create([
+            'name' => 'Laptop',
+            'Icon' => 'icon1.png',
+            'order' => 2,
+            'catégorie_mére' => 'electrionc',
+            'etat' => 'Active',
+        ]);
+        Category::create([
+            'name' => 'Shoes',
+            'Icon' => 'icon1.png',
+            'order' => 1,
+            'catégorie_mére' => 'clothes',
+            'etat' => 'Active',
+        ]);
+        Category::create([
+            'name' => 'Phone',
+            'Icon' => 'icon1.png',
+            'order' => 2,
+            'catégorie_mére' => 'electrionc',
             'etat' => 'Active',
         ]);
     }

@@ -28,7 +28,7 @@ class UpdateProductRequest extends FormRequest
             'prix' => 'nullable|numeric',
             'etat_du_stock' => 'required|string|max:255',
             'etat' => 'required|string|max:255',
-            'images' => 'required',
+          
             'quantity' => 'nullable|numeric',
             // 'code' => 'string|max:255',
             // 'codebarreEAN13' => 'string|max:255',
