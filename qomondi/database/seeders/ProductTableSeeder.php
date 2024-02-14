@@ -24,7 +24,7 @@ class ProductTableSeeder extends Seeder
                 'codebarreEAN13' => $faker->unique()->randomNumber(5),
                 'ref' =>$faker->unique()->randomNumber(3),
                 'quantity' => $faker->numberBetween(10, 1000),
-                'quantité_minimal' => $faker->numberBetween(1, 50),
+                'quantite_minimal' => $faker->numberBetween(1, 50),
                 'prix' => $faker->randomFloat(2, 5, 100),
                 'etat' => $faker->randomElement(['Active', 'Inactive']),
                 'etat_du_stock' => $faker->randomElement(['Disponible', 'Indisponible']),

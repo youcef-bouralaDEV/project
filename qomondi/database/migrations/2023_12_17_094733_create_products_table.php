@@ -26,9 +26,9 @@ return new class extends Migration
             $table->string('name');
             $table->integer('codebarreEAN13')->nullable();
             $table->integer('code')->nullable();
-            $table->integer('ref')->nullable();
+            $table->string('ref')->nullable();
             $table->integer('quantity');
-            $table->integer('quantité_minimal')->nullable();
+            $table->integer('quantite_minimal')->nullable();
             $table->double('prix');
             $table->double('prix_dachat')->nullable();
             $table->double('grossiste')->nullable();
@@ -41,7 +41,7 @@ return new class extends Migration
             $table->string('etat_du_stock')->default(EtatDuStockEnum::Disponible);
             $table->string('commande_Colis')->default(CommandeParColisEnum::Par_Defaut);
             $table->string('uniteLongueur')->default(UniteDeLongueurEnum::Métre);
-            $table->string('Unité_poids')->default(UnitePoidsEnum::kilogramme); 
+            $table->string('Unite_poids')->default(UnitePoidsEnum::kilogramme); 
             $table->string('description')->nullable();
             $table->timestamps();
         });

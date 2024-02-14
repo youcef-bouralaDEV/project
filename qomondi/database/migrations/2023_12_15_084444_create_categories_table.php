@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('icon')->nullable();
             $table->string('order')->nullable();
-            $table->string('catégorie_mére');
+            $table->string('categorie_mere');
             $table->string('etat')->default(EtatEnum::Active);
             $table->timestamps();
         });

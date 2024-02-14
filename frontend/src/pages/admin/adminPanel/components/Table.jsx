@@ -1,8 +1,6 @@
 import * as React from "react";
 import { DataGrid ,GridToolbar } from "@mui/x-data-grid";
-import { Link } from "react-router-dom";
-import { FaRegEdit } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
+
 
 
 export default function Table({ rows, columns ,actionColumn ,deleteUser}) 
@@ -10,7 +8,7 @@ export default function Table({ rows, columns ,actionColumn ,deleteUser})
  
   const rowsData = rows || [];
   return (
-    <div  style={{  height: '100%', width: "100%" }}>
+    <div  className="border-1  border-gray-100 rounded">
       <DataGrid
         rows={rowsData}
         columns={columns.concat(actionColumn)}

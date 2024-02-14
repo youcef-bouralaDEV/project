@@ -6,6 +6,7 @@ import Header from "../components/Header";
 import Table from "../components/Table";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import { FiPlus } from "react-icons/fi";
 
 export default function ProductHome() {
   const {
@@ -43,8 +44,12 @@ export default function ProductHome() {
             </div>
             <div className="flex flex-col p-0 mb-">
               <p>{params.row.name}</p>
-              <p className="text-sm font-bold">{`Code${params.row.code}`}</p>
-              <p className="text-sm font-bold">{`Ref${params.row.ref}`}</p>
+              <p className="text-sm font-bold">{`Code: ${
+                params.row.code || "-"
+              }`}</p>
+              <p className="text-sm font-bold">{`Ref: ${
+                params.row.ref || "-"
+              }`}</p>
             </div>
           </div>
         );
@@ -84,19 +89,20 @@ export default function ProductHome() {
     headerName: "Action",
     width: 200,
     renderCell: (params) => {
-      
       return (
         <div className="flex gap-3 ">
-          <Link to={'/admin/product/'+ params.row.id}>
-            <FaRegEdit color="green" size={'1.2rem'}/>
+          <Link to={"/admin/product/" + params.row.id}>
+            <FaRegEdit color="green" size={"1.2rem"} />
           </Link>
-          <button onClick={()=>deleteProduct(params.rows.id)} >
-            <MdDelete color="red" size={'1.2rem'}/>
+          <button onClick={() => deleteProduct(params.row.id)}>
+            <MdDelete color="red" size={"1.2rem"} />
           </button>
         </div>
       );
     },
   };
+ 
+
   // console.log(filtredProducts);
   const deleteProduct = (id) => {
     console.log(id);
@@ -112,11 +118,9 @@ export default function ProductHome() {
     <div className="max-w-[85%]  mx-auto h-full">
       <Header category="Page" title="Product" />
       <div className="py-5">
-        <Link to={'create'}>
-        add
-        </Link>
-        <div className="mx-auto p-4 border border-gray-300">
-            <form>
+      
+        <div className="mx-auto p-4 border border-gray-300 rounded">
+          <form>
             {/* First Line */}
             <div className="grid grid-cols-2 gap-4 mb-4">
               <div className="col-span-1">
@@ -127,6 +131,7 @@ export default function ProductHome() {
                   Category:
                 </label>
                 <select
+                
                   id="category"
                   name="category"
                   value={selectedCategory}
@@ -134,7 +139,7 @@ export default function ProductHome() {
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
                 >
                   {/* Options for Category */}
-                  <option value="">Select Category</option>
+                  <option value=""  className="text-red-500 italic" >Select Category</option>
                   {categories.map((category) => (
                     <option key={category.id} value={category.id}>
                       {category.name}
@@ -261,7 +266,16 @@ export default function ProductHome() {
           </form>
         </div>
 
-        <div className="relative overflow-x-auto p-6 my-5 shadow-md   sm:rounded-lg ">
+        <div className="relative overflow-x-auto p-6 my-5 shadow-lg   sm:rounded-lg ">
+        <div className="w-full text-center md:text-right mb-1 md:mb-5">
+          <Link
+            to={"create"}
+            className="inline-flex items-center justify-center gap-2 rounded border border-orange-500 mt-1 text-sm py-1.5 text-center font-normal text-white bg-orange-500 hover:bg-opacity-90 px-3 sm:px-6 md:px-6 lg:px-8 xl:px-6 hover:shadow-[0_3px_15px_rgba(0,0,0,0.25)]"
+          >
+            <FiPlus className="bg-white rounded-full text-orange-500" />
+            Nouveau Produit
+          </Link>
+        </div>
           <Table
             loading={products ? products.length : 0}
             rows={filtredProducts}

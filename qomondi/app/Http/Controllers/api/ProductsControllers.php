@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api;
 
+
 use Illuminate\Support\Facades\Log;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -39,10 +40,9 @@ class ProductsControllers extends Controller
         return new ProductsResource($product);
     }
 
-    public function updateProduct(StoreProductRequest $request, $id)
+    public function updateProduct(UpdateProductRequest $request, $id)
 {   
     try {
-        Log::info('Received data:', $request->all());
         $product = Product::find($id);
         $product->update($request->validated());
         
@@ -72,4 +72,5 @@ class ProductsControllers extends Controller
         return response()->json(new ProductsResource($product));
         
     }
+    
 }

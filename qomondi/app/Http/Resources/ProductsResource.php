@@ -24,7 +24,7 @@ class ProductsResource extends JsonResource
             'codebarreEAN13' => $this->codebarreEAN13,
             'ref' => $this->ref,
             'quantity' => $this->quantity,
-            'quantité_minimal' => $this->quantité_minimal,
+            'quantite_minimal' => $this->quantité_minimal,
             'prix' => $this->prix,
             'prix_dachat' => $this->prix_dachat,
             'grossiste' => $this->grossiste,
@@ -36,7 +36,7 @@ class ProductsResource extends JsonResource
             'etat_du_stock' => $this->etat_du_stock,
             'commande_Colis' => $this->commande_Colis,
             'uniteLongueur' => $this->uniteLongueur,
-            'Unité_poids' => $this->Unité_poids,
+            'Unite_poids' => $this->Unité_poids,
             'description' => $this->description,
             'etat' => $this->etat,
 

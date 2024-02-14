@@ -25,11 +25,13 @@ class UpdateProductRequest extends FormRequest
             'name' => 'required|string|max:255',
             'category_id' => 'required|integer',
             'mark_id' => 'required|integer',
-            'prix' => 'nullable|numeric',
-            'etat_du_stock' => 'required|string|max:255',
-            'etat' => 'required|string|max:255',
-          
-            'quantity' => 'nullable|numeric',
+            'prix' => 'required|numeric',
+            'quantity' => 'required|numeric',
+            
+            
+            // 'etat_du_stock' => 'required|string|max:255',
+            // 'etat' => 'required|string|max:255',
+            // 'commande_Colis' => 'required|string|max:255',
             // 'code' => 'string|max:255',
             // 'codebarreEAN13' => 'string|max:255',
             // 'ref' => 'string|max:255',
@@ -42,11 +44,10 @@ class UpdateProductRequest extends FormRequest
             // 'length' => 'nullable|numeric',
             // 'width' => 'nullable|numeric',
             // 'poid' => 'nullable|numeric',
-            // 'commande_Colis' => 'string|max:255',
             // 'uniteLongueur' => 'nullable|string|max:255',
             // 'Unité_poids' => 'nullable|string|max:255',
             // 'description' => 'nullable|string',
-            // 'image_path' => 'string|max:255',
+
         ];
     }
 }

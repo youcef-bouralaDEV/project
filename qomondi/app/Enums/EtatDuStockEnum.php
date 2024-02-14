@@ -7,5 +7,5 @@ enum EtatDuStockEnum: string
 
     case Disponible = 'Disponible';
     case Indisponible = 'Indisponible';
-    case Prochainement = 'Disponible Prochainement';
+    case Prochainement = 'Disponible_Prochainement';
 }

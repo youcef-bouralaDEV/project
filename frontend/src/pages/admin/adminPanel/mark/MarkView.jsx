@@ -5,9 +5,9 @@ import Table from "../components/Table";
 import { MdDelete } from "react-icons/md";
 import Header from "../components/Header";
 
-export default function ViewCategory() {
+export default function MarkView() {
   const [loading, setLoading] = useState(true);
-  const [categories, setCategories] = useState([]);
+  const [marks, setMarks] = useState([]);
 
   const columns = [
     {
@@ -15,14 +15,14 @@ export default function ViewCategory() {
       headerName: "Image",
       width: 80,
       renderCell: (params) => (
-      <div>
-      <img
-        className="w-10 h-10 rounded-full bg-cover"
-        src={params.row.icon || "/src/assets/skills-01.jpg"}
-        alt=""
-      />
-    </div>
-      )
+        <div>
+          <img
+            className="w-10 h-10 rounded-full bg-cover"
+            src={params.row.icon || "/src/assets/skills-01.jpg"}
+            alt=""
+          />
+        </div>
+      ),
     },
 
     {
@@ -84,16 +84,14 @@ export default function ViewCategory() {
   return (
     <div className="max-w-[90%] p-6  m-auto ">
       <Header category="Page" title="Catégory" />
-    <div className="relative   my-5   sm:rounded-lg ">
-      <Table
-        loading={categories ? categories.length : 0}
-        rows={categories}
-        columns={columns}
-        actionColumn={actionColumn}
-      />
-
-      
-    </div>
+      <div className="relative   my-5   sm:rounded-lg ">
+        <Table
+          loading={categories ? categories.length : 0}
+          rows={categories}
+          columns={columns}
+          actionColumn={actionColumn}
+        />
+      </div>
     </div>
   );
 }

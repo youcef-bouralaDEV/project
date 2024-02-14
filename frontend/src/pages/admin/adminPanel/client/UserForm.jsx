@@ -116,6 +116,7 @@ export default function UserForm() {
 
     setErrors(newErrors);
     setFormSubmitted(true);
+    console.log(formValid);
     return formValid;
   };
 
