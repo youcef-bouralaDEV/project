@@ -124,7 +124,7 @@ export default function ClientDetailsView() {
   }
   return (
     <div className=" my-4 mx-10 p-10 overflow-hidden bg-white">
-      <Modal2 open={open} setOpen={setOpen} />
+      <Modal2 open={open} setOpen={setOpen} message={"rrr"} />
       <div className="flex justify-end items-center mt-4 mr-3">
         <button className="flex justify-center items-center bg-orange-400 px-4 py-1 mr-2 text-white rounded">
           <MdOutlineModeEditOutline className="mr-2" />

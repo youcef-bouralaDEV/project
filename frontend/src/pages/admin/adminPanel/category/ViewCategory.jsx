@@ -68,7 +68,7 @@ export default function ViewCategory() {
   };
 
   useEffect(() => {
-    axios.get(`getCategory`).then((res) => {
+    axios.get(`getCategories`).then((res) => {
       if (res.data.status === 200) {
         console.log(res.data.categories);
         setCategories(res.data.categories);

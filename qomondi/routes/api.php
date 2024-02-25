@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\api\Cart;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\MarksController;
@@ -31,22 +32,29 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/GetClient/{id}', [ClientsController::class, 'GetClient']);
     Route::delete('/deleteClient/{id}', [ClientsController::class, 'destroy']);
     Route::put('/toggleClientState/{id}', [ClientsController::class, 'toggleClientState']);
-    
+
     Route::get('/getProduct/{id}', [ProductsControllers::class, 'getProduct']);
     Route::get('/getProducts', [ProductsControllers::class, 'getProducts']);
     Route::delete('/deleteProduct/{id}', [ProductsControllers::class, 'deleteProduct']);
     Route::get('/viewProduct/{id}', [ProductsControllers::class, 'show']);
     Route::post('/createProducts', [ProductsControllers::class, 'store']);
-    Route::get('/getMarks', [MarksController::class, 'getMarks']);
     Route::put('/updateProduct/{id}', [ProductsControllers::class, 'updateProduct']);
-    
+
     //category routes
-    Route::get('/getCategories', [CategoryController::class, 'index']);
-    Route::get('/getCategory', [CategoryController::class, 'index']);
+    Route::get('/getCategories', [CategoryController::class, 'getCategories']);
+    Route::get('/getCategory', [CategoryController::class, 'getCategory']);
+
+    //mark routes
+    Route::get('/getMarks', [MarksController::class, 'getMarks']);
+
+    //cart routes
+    Route::post('/add-to-cart', [Cart::class, 'addToCart']);
+    Route::get('/getCart', [Cart::class, 'getCartItems']);
     
+    
+
     //willaya and commune routes
     Route::get('/getWilayasAndCommunes', [WilayaCommuneController::class, 'getWilayasAndCommunes']);
-
 });
 
 Route::post('login', [UserController::class, "login"]);

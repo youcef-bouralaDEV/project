@@ -8,32 +8,24 @@ import axios from "../axios";
 export default function ClientLayout() {
   const navigate = useNavigate();
 
-  const { token, saveToken, user } = useGlobelContext();
-  const [isLoading, setIsLoading] = useState(true);
-  console.log("client layout", user?.role);
+  const { token, saveToken, activeMenu } = useGlobelContext();
+  const [isLoading, setIsLoading] = useState(false);
+  console.log("admin layout", localStorage.getItem("userRole"));
 
-  useEffect(() => {
-  console.log('from useEffect ');
+  // useEffect(() => {
+  //   if(token){
+  //     const userRole = localStorage.getItem('userRole');
 
-    try {
-      if (token) {
-        if (user?.role === "user") {
-          console.log(user?.role);
-          setIsLoading(false);
-        } else {
-          console.log(user?.role);
-          navigate("/admin/home");
-        }
-      
-      }else {
-        navigate("/clientlogin");
-      }
-    } catch (error) {
-      console.error("Error checking authentication:", error);
-      setIsLoading(false);
-    }
-  }, [user?.role]);
-  console.log('from clinet ');
+  //     if (userRole === 'user') {
+  //       navigate('/client/home');
+  //     }
+
+  //   } else {
+  //     navigate('/clientlogin')
+  //    }
+  // }, [navigate]);
+
+  // console.log('from clinet ');
   if (isLoading) {
     return (
       <div className="flex items-center justify-center">
@@ -41,55 +33,44 @@ export default function ClientLayout() {
         <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>
       </div>
     );
-
   }
   const onLogout = async (ev) => {
     ev.preventDefault();
     try {
       await axios.post("/logout");
       saveToken(null);
+      localStorage.removeItem("userRole");
       navigate("/clientLogin");
     } catch (error) {
       console.error("Logout failed:", error);
     }
   };
 
-  // const redirectToLogin = () => {
-  //   // console.log(role);
-
-  //   if (!token && user?.role === "admin") {
-  //     navigate("/adminlogin");
-  //   } else {
-  //     navigate("/clientlogin");
-  //   }
-  // };
-  // if (token) {
-  //   console.log(user);
-  //   return user?.role === "admin" ? (
-
-  //     <Navigate to="/admin/home" />
-  //   ) : (
-  //     <Navigate to="/home" />
-  //   );
-  // }
-  // useEffect(() => {
-  //   if (!token) {
-  //     redirectToLogin();
-  //   }
-  // }, [token]);
-
   return (
     <>
-      <div className="">
-        <div className="flex overflow-scroll ">
-          <div className="basis-[12%] h-[100vh]">
-            <Sidebar onLogout={onLogout} />
-           
-          </div>
-          <div className="basis-[88%] border overflow-scroll h-[100vh]">
-            <Navbar />
+      <div>
+       
+        <div className="flex relative ">
+          {activeMenu ? (
+            <div className="w-72 fixed sidebar bg-white ">
+              <Sidebar />
+            </div>
+          ) : (
+            <div className="w-0">
+              <Sidebar />
+            </div>
+          )}
+          <div
+            className={
+              activeMenu
+                ? "dark:bg-main-dark-bg  bg-main-bg min-h-screen md:ml-72 w-full  "
+                : "bg-main-bg dark:bg-main-dark-bg  w-full min-h-screen flex-2 "
+            }
+          >
+            <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
+              <Navbar />
+            </div>
             <Outlet />
-            <div></div>
           </div>
         </div>
       </div>

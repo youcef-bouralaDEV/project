@@ -3,13 +3,22 @@ import { Navigate, Outlet } from "react-router-dom";
 
 export default function GuestLayout() {
   const { token, user } = useGlobelContext();
+
+  console.log("admin layout", localStorage.getItem('userRole'));
+  const userRole = localStorage.getItem('userRole');
+
   
 
   console.log(user?.role);
   if (token) {
-   
-      console.log("geustLayout", user?.role);
+
+    if(userRole === "admin")
+      return <Navigate to="/admin/home" />;
+    else {
+
       return <Navigate to="/client/home" />;
+    }
+    
     
   }
 

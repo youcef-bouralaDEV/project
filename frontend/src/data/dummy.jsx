@@ -517,7 +517,7 @@ export const Admin_SideBar_links = [
       {
         name: "Marks",
         icon: <RiContactsLine />,
-        path : "admin/mark",
+        path : "admin/marks",
       },
       {
         name: "Slides",

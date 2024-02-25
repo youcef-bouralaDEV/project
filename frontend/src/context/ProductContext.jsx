@@ -44,7 +44,7 @@ export const ProductProvider = ({ children }) => {
       case "ref":
         setSearchByRef(value);
         break;
-      case "minPrice": 
+      case "minPrice":
         setMinPrice(value);
         break;
       case "maxPrice":
@@ -54,25 +54,24 @@ export const ProductProvider = ({ children }) => {
         break;
     }
   };
- 
+
   const handleFilterClick = () => {
     const filtered = products.filter((product) => {
       const categoryMatch =
         !selectedCategory ||
         product.category.id.toString() === selectedCategory;
-        // console.log(selectedCategory);
-        // console.log(!selectedCategory || product.category.id.toString() === selectedCategory);
+      // console.log(selectedCategory);
+      // console.log(!selectedCategory || product.category.id.toString() === selectedCategory);
 
       const markMatch =
         !selectedMark || product.mark.id.toString() === selectedMark;
-       
 
       const nameMatch =
         !searchName ||
         product.name.toLowerCase().includes(searchName.toLowerCase());
-        console.log("product.name:", (product.name));
-        console.log("searchName:",(searchName));
-        console.log("markMatch:", nameMatch);
+      console.log("product.name:", product.name);
+      console.log("searchName:", searchName);
+      console.log("markMatch:", nameMatch);
 
       const etatMatch =
         !searchByEtat ||
@@ -87,10 +86,10 @@ export const ProductProvider = ({ children }) => {
       const priceMatch =
         (!minPrice || parseFloat(product.prix) >= parseFloat(minPrice)) &&
         (!maxPrice || parseFloat(product.prix) <= parseFloat(maxPrice));
-        // console.log("product.price:", parseFloat(product.prix));
-        // console.log("minPrice:", parseFloat(minPrice));
-        // console.log("maxPrice:", parseFloat(maxPrice));
-        // console.log("priceMatch:", priceMatch);
+      // console.log("product.price:", parseFloat(product.prix));
+      // console.log("minPrice:", parseFloat(minPrice));
+      // console.log("maxPrice:", parseFloat(maxPrice));
+      // console.log("priceMatch:", priceMatch);
       return (
         categoryMatch &&
         markMatch &&
@@ -108,24 +107,23 @@ export const ProductProvider = ({ children }) => {
 
   // console.log(filtredProducts);
   const clearFilters = () => {
-    setSelectedCategory('');
-    setSelectedMark('');
+    setSelectedCategory("");
+    setSelectedMark("");
     setMinPrice(0);
     setMaxPrice(2000);
-    setSearchByEtat(''),
-    setSearchByRef(null)
-    setSearchByCode(null)
-    setSearchName('')
-    handleFilterClick()
+    setSearchByEtat(""), setSearchByRef(null);
+    setSearchByCode(null);
+    setSearchName("");
+    handleFilterClick();
   };
   const getProducts = async () => {
     setLaoding(true);
     try {
       let response = await axios.get("/getProducts");
-        // console.log(response.data);
-      setLaoding(false);
+      console.log(response.data);
       setProducts(response.data);
       setFiltredProducts(response.data);
+      setLaoding(false);
     } catch (err) {
       console.log(err);
     }
@@ -133,8 +131,8 @@ export const ProductProvider = ({ children }) => {
   const getCategories = async () => {
     try {
       const response = await axios.get("/getCategory");
-      // console.log(response.data.categories[0]);
-      setCategories(response.data.categories[0]);
+      console.log(response.data);
+      setCategories(response.data);
     } catch (err) {
       console.log(err);
     }
@@ -142,13 +140,13 @@ export const ProductProvider = ({ children }) => {
   const getMarks = async () => {
     try {
       const response = await axios.get("/getMarks");
-      // console.log(response.data);
-      setMarks(response.data);
+      // console.log(response.data.marks);
+      setMarks(response.data.marks);
     } catch (err) {
       console.log(err);
     }
   };
- 
+
   return (
     <ProductContx.Provider
       value={{
@@ -168,7 +166,7 @@ export const ProductProvider = ({ children }) => {
         categories,
         marks,
         minPrice,
-        maxPrice
+        maxPrice,
       }}
     >
       {children}

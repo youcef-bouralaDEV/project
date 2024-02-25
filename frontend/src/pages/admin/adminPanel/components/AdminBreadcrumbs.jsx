@@ -50,7 +50,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaGreaterThan } from "react-icons/fa";
 
-const Breadcrumbs = () => {
+const AdminBreadcrumbs = () => {
   const location = useLocation();
   const [breadcrumbs, setBreadcrumbs] = useState([]);
 
@@ -77,8 +77,8 @@ const Breadcrumbs = () => {
     const homeBreadcrumb = { label: "Home", path: "/" };
     setBreadcrumbs([homeBreadcrumb, ...generatedBreadcrumbs]);
 
-    // console.log(pathSegments);
-    // console.log(generatedBreadcrumbs);
+    console.log(pathSegments);
+    console.log(generatedBreadcrumbs);
   }, [location.pathname]);
 
   // Check if the current route is the home page
@@ -119,4 +119,4 @@ const Breadcrumbs = () => {
   );
 };
 
-export default Breadcrumbs;
+export default AdminBreadcrumbs;

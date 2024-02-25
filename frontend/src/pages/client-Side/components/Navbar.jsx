@@ -1,81 +1,103 @@
-import React from "react";
-import { FaHeart, FaPowerOff, FaRegBell } from "react-icons/fa6";
-import { IoSearchOutline } from "react-icons/io5";
-import { FaFileAlt, FaShoppingCart, FaUser, FaUserAlt } from "react-icons/fa";
+import React, { useEffect } from "react";
+import { AiOutlineMenu } from "react-icons/ai";
+import { FiShoppingCart } from "react-icons/fi";
+import { RiNotification3Line } from "react-icons/ri";
+import { MdKeyboardArrowDown } from "react-icons/md";
+import { useGlobelContext } from "../../../context/Context";
 import { Link } from "react-router-dom";
-import { FaCartShopping } from "react-icons/fa6";
 
+const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
+  <button
+    type="button"
+    onClick={() => customFunc()}
+    style={{ color }}
+    className="relative text-xl rounded-full p-3 hover:bg-light-gray"
+  >
+    <span
+      style={{ background: dotColor }}
+      className="absolute inline-flex rounded-full h-2 w-2 right-1.5 top-2"
+    />
+    {icon}
+  </button>
+);
 
+const Navbar = () => {
+  const {
+    currentColor,
+    activeMenu,
+    setActiveMenu,
+    handleClick,
+    isClicked,
+    setScreenSize,
+    screenSize,
+  } = useGlobelContext();
 
-export default function Navbar() {
+  useEffect(() => {
+    const handleResize = () => setScreenSize(window.innerWidth);
 
-  const DropdownMenu = () => {
+    window.addEventListener("resize", handleResize);
 
-    return (
-      <div className="absolute  top-14 mt-3 right-[42px]  w-47 bg-white rounded-md shadow-lg hidden ">
-        <div className="py-1">
-          <Link to="/mes-commandes" className="flex  items-center  px-3 py-2 text-sm text-gray-700 hover:bg-gray-100">
-            <FaShoppingCart className="mr-2" />
-            Mes Commandes
-          </Link>
-          <Link to="/mes-factures" className="flex items-center  px-3 py-2 text-sm text-gray-700 hover:bg-gray-100">
-            <FaFileAlt className="mr-2" />
-            Mes Factures
-          </Link>
-          <Link to="/mes-favoris" className="flex items-center  px-3 py-2 text-sm text-gray-700 hover:bg-gray-100">
-            <FaHeart className="mr-2" />
-            Mes Favoris
-          </Link>
-          <Link to="/mon-profil" className="flex items-center  px-3  py-2 text-sm text-gray-700 hover:bg-gray-100">
-            <FaUserAlt className="mr-2" />
-            Mon Profil
-          </Link>
-          <button className="flex justify-end items-center  w-full text-left px-4 py-2 text-sm text-white bg-blue-500 hover:bg-gray-100">
-            <FaPowerOff className="mr-2" />
-            Déconnexion
-          </button>
-        </div>
-      </div>
-    );
-  };
-   
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (screenSize <= 900) {
+      setActiveMenu(false);
+    } else {
+      setActiveMenu(true);
+    }
+  }, [screenSize]);
+
+  const handleActiveMenu = () => setActiveMenu(!activeMenu);
+
   return (
-    <div className="flex items-center justify-between h-[70px] shadow-lg px-[25px] ">
-        
-      <div className="flex items-center rounded-[5px]">
-        <input
-          type="text"
-          className=" bg-[#F8F9FC] h-[40px] outline-none pl-[13px] w-[350px] rounded-[5px] placeholder:text-[14px] leading-[20px] font-normal"
-          placeholder="Search for..."
-        />
-        <div className="bg-[#4E73DF] h-[40px] px-[14px] flex items-center justify-center cursor-pointer rounded-tr-[5px] rounded-br-[5px]">
-          <IoSearchOutline color="white" />
-        </div>
-      </div>
+    <div className="flex justify-between py-6 md:ml-6 md:mr-6 relative">
+      <NavButton
+        title="Menu"
+        customFunc={handleActiveMenu}
+        color={currentColor}
+        icon={<AiOutlineMenu />}
+      />
       <div className="flex">
+        <NavButton
+          title="Notification"
+          dotColor="rgb(254, 201, 15)"
+          customFunc={() => handleClick("notification")}
+          color={currentColor}
+          icon={<RiNotification3Line />}
+        />
+        <Link to={"shoppingCart"}>
+          <NavButton
+            dotColor="rgb(254, 201, 15)"
+            color={currentColor}
+            icon={<FiShoppingCart />}
+          />
+        </Link>
 
-      <div className="flex items-center mr-5">
-        <div className="flex items-center ">
-          <FaRegBell className="text-yellow-500" />
+        <div
+          className="flex items-center gap-2 cursor-pointer py-1 pl-2 hover:bg-light-gray rounded-lg"
+          onClick={() => handleClick("userProfile")}
+        >
+          <img
+            className="rounded-full w-8 h-8"
+            src="/src/assets/skills-01.jpg"
+            alt="user-profile"
+          />
+          <p>
+            <span className="text-gray-400 text-14">Hi,</span>{" "}
+            <span className="text-gray-400 font-bold ml-1 text-14">client</span>
+          </p>
+          <MdKeyboardArrowDown className="text-gray-400 text-14" />
         </div>
-      </div>
-      <div className="flex items-center  border-l-[1px] gap-[10px] p-2">
-        <div className="flex items-center ">
-          <FaCartShopping className="text-blue-500"/> 
-        </div>
-        <Link><p className="text-sm">Mon Panier</p></Link>
-     
-      </div>
-      
-      <div className="flex items-center  border-l-[1px] gap-[10px] p-2">
-        <div className="flex items-center ">
-          <FaUser className="text-blue-500"/> 
-        </div>
-        <Link><p className="text-sm">Mon Compte</p></Link>
-        <DropdownMenu/>
-     
-      </div>
+
+        {isClicked.cart && <Link to={"/shoppingCart"} />}
+        {/* {isClicked.notification && <Notification />}
+          {isClicked.userProfile && <ClientProfile />}  */}
       </div>
     </div>
   );
-}
+};
+
+export default Navbar;

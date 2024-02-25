@@ -27,6 +27,7 @@ const ClientLogin = () => {
 
       const userRole = response.data["user"].role.toString();
       if (response.status === 200 && userRole === "user") {
+        localStorage.setItem("userRole", userRole);
         saveToken(response.data.token);
         //  navigate("/client/home")
       } else {

@@ -8,15 +8,21 @@ use App\Http\Controllers\Controller;
 
 class MarksController extends Controller
 {
-    public function getMarks(){
-        try {
-               
-            $categoryNames = Mark::select('id', 'name')->get();
-    
-            return response()->json($categoryNames, 200);
-        }catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to fetch categories' ,$e], 500);
+    public function getMarks()
+    {
+        $mark = Mark::all();
+        if ($mark) {
+
+            return response()->json([
+                'status' => 200,
+                'marks' => $mark
+
+            ]);
+        } else {
+            return response()->json([
+                'status' => 400,
+                'message' => 'No category Available'
+            ]);
         }
-    
     }
 }

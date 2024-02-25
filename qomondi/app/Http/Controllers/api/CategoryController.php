@@ -5,21 +5,22 @@ namespace App\Http\Controllers\api;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Mark;
 use App\Models\Product;
 
 class CategoryController extends Controller
 {
 
-    public function index()
+    public function getCategories()
     {
         $category = Category::all();
         if ($category) {
 
             return response()->json([
                 'status' => 200,
-                'categories' => 
+                'categories' =>
                 $category
-            
+
             ]);
         } else {
             return response()->json([
@@ -29,10 +30,12 @@ class CategoryController extends Controller
         }
     }
 
-    public function getCategories()
+  
+
+    public function getCategory()
     {
         try {
-            $categories = Category::select('id', 'Nom')->get();
+            $categories = Category::select('id', 'name')->get();
 
             return response()->json($categories, 200);
         } catch (\Exception $e) {

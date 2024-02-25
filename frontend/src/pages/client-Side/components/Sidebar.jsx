@@ -1,66 +1,54 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { FaUser } from "react-icons/fa";
-import { IoIosArrowForward } from "react-icons/io";
-import { useProductContext } from "../../../context/ProductContext";
-import { CiLogin  } from "react-icons/ci";
+import { Link} from "react-router-dom";
+import { SiShopware } from "react-icons/si";
+import { useGlobelContext } from "../../../context/Context";
 import ClientFiltration from "./ClientFiltration";
+import { MdOutlineCancel } from "react-icons/md";
 
-export default function Sidebar({onLogout}) {
-  const { categories } = useProductContext();
-  // console.log(categories);
+
+const activeLink = 'flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg  text-white  text-md m-2';
+const normalLink = 'flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md text-gray-700 hover:text-orange-500 m-2';
+
+
+const Sidebar = () => {
+  const { currentColor, activeMenu, setActiveMenu, screenSize } =
+    useGlobelContext();
+
+  const handleCloseSideBar = () => {
+    if (activeMenu !== undefined && screenSize <= 900) {
+      setActiveMenu(false);
+    }
+  };
+
+
   return (
-    <div className="bg-[#4E73DF] px-[25px] h-screen">
-      <div className="px-[15px] py-[30px] flex items-center justify-center border-b-[1px] border-[#EDEDED]/[0.3]">
-        <Link
-          to={"/"}
-          className="text-white text-[20px] leading-[24px] font-extrabold cursor-pointer"
-        >
-          
-          Admin panel
-        </Link>
-      </div>
-      <div className="flex items-center gap-[15px] py-[20px] border-b-[1px] border-[#EDEDED]/[0.3] cursor-pointer">
-        <p className="text-[14px] leading-[20px] font-bold text-white">
-          Dashboard
-        </p>
-      </div>
-      <ClientFiltration/>
-      {/* <div className="flex items-center justify-between gap-[10px] py-[15px] cursor-pointer">
-        <div className="flex items-center gap-[10px]">
-          <FaUser color="white" />
-
-          <Link
-            to={"home"}
-            className="text-[14px] leading-[20px] font-normal text-white"
-          >
-            Client
-          </Link>
-        </div>
-        <IoIosArrowForward color="white" />
-      </div>
-      <div className="flex items-center justify-between gap-[10px] py-[15px] cursor-pointer">
-        <div className="flex items-center gap-[10px]">
-          <div className="text-[14px] leading-[20px] font-normal text-white">
-            Categories
-            {categories.map((category) => (
-              <div key={category.id}>{category.name} </div>
-            ))}
+    <div className="ml-3 h-screen md:overflow-hidden overflow-auto md:hover:overflow-auto pb-10">
+      {activeMenu && (
+        <>
+          <div className="flex justify-between items-center">
+            <Link
+              to="/"
+              onClick={handleCloseSideBar}
+              className="items-center gap-3 ml-3 mt-4 flex text-xl font-extrabold tracking-tight dark:text-white text-slate-900"
+            >
+              <SiShopware /> <span>Qomondi</span>
+            </Link>
+            <button
+                type="button"
+                onClick={() => setActiveMenu(!activeMenu)}
+                style={{ color: currentColor }}
+                className="text-xl rounded-full p-3 hover:bg-light-gray mt-4 block md:hidden"
+              >
+                <MdOutlineCancel />
+              </button>
           </div>
-        </div>
-        <IoIosArrowForward color="white" />
-      </div> */}
-      <div className="flex items-center justify-between gap-[10px] py-[15px] cursor-pointer">
-        <div className="flex items-center gap-[10px]">
-          <Link
-            to={"admin/client"}
-            className="text-[14px] leading-[20px] font-normal text-white"
-          >
-            Logout
-          </Link>
-        </div>
-        <CiLogin className="text-white" onClick={onLogout}  />
-      </div>
+          <div className="mt-5 ">
+            <ClientFiltration/>
+          </div>
+        </>
+      )}
     </div>
   );
-}
+};
+
+export default Sidebar;

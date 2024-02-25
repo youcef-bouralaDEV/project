@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import ReactDom from "react-dom";
 
 
-export default function Modal2({open ,setOpen}) {
+export default function Modal2({open ,setOpen, message}) {
 
     if(!open) return null
 
@@ -33,7 +33,7 @@ export default function Modal2({open ,setOpen}) {
               />
             </svg>
             <h3 className="my-6 text-xl font-bold text-gray-500 ">
-              Status du client est mis à jour.
+              {message}
             </h3>
             <button
             onClick={()=>setOpen(false)}

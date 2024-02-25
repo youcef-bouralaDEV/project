@@ -4,13 +4,15 @@ import App from "./App.jsx";
 import "./style/style.css";
 import { AppProvider } from "./context/Context.jsx";
 import { ProductProvider } from "./context/ProductContext.jsx";
-
+import { ProductQuantityProvider } from "./context/ProductQuantityContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AppProvider>
       <ProductProvider>
-        <App />
+        <ProductQuantityProvider>
+          <App />
+        </ProductQuantityProvider>
       </ProductProvider>
     </AppProvider>
   </React.StrictMode>

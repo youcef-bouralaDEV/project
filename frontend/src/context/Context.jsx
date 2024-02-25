@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import axios from "../axios";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
@@ -10,7 +11,9 @@ const initialState = {
   notification: false,
 };
 
+
 export const AppProvider = ({ children }) => {
+
   const [screenSize, setScreenSize] = useState(undefined);
   const [currentColor, setCurrentColor] = useState("#fe6d33");
   const [currentMode, setCurrentMode] = useState("Light");
@@ -22,8 +25,6 @@ export const AppProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("Access"));
   const [clients, setClients] = useState(null);
   const [loading, setLoading] = useState(false);
-
-
 
   //Adjust theme and color functions
   // **************************************
@@ -39,13 +40,13 @@ export const AppProvider = ({ children }) => {
 
   const handleClick = (clicked) =>
     setIsClicked({ ...initialState, [clicked]: true });
-    // **************************************
-    //Adjust theme and color functions
-    
-    useEffect(() => {
-      GetUser();
-      getClients();
-    }, []);
+  // **************************************
+  //Adjust theme and color functions
+
+  useEffect(() => {
+    // GetUser();
+    getClients();
+  }, []);
 
   const GetUser = async () => {
     try {
@@ -56,12 +57,13 @@ export const AppProvider = ({ children }) => {
       });
 
       setUser(response.data);
+
       // console.log(response.data);
     } catch (error) {
       console.log(error);
     }
   };
-  // console.log(user?.role);
+  console.log(user?.role);
 
   const getClients = async () => {
     setLoading(true);
@@ -96,6 +98,7 @@ export const AppProvider = ({ children }) => {
         clients,
         loading,
         user,
+        GetUser,
         getClients,
         saveToken,
         setToken,

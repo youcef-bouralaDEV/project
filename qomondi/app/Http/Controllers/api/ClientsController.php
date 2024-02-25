@@ -13,15 +13,8 @@ use App\Http\Requests\UpdateUserRequest;
 
 class ClientsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function index()
-    {
-        return UserResource::collection(User::query()->orderBy('id', 'desc')->paginate(10));
-    }
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -133,8 +126,8 @@ class ClientsController extends Controller
 
         return response()->json([
             'message' => 'Client state toggled successfully',
-            'etat' =>$toggleState,
-            'is_active' => $toggleState ==='Active',
+            'etat' => $toggleState,
+            'is_active' => $toggleState === 'Active',
         ]);
     }
     // public function options()

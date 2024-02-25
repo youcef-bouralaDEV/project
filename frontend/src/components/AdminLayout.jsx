@@ -8,35 +8,31 @@ import Navbar from "../pages/admin/NavBar";
 import { FiSettings } from "react-icons/fi";
 
 function AdminLayout() {
-  const { token, saveToken, user, activeMenu } = useGlobelContext();
-  const [isLoading, setIsLoading] = useState(true);
+  const { token, saveToken,user, activeMenu ,GetUser} = useGlobelContext();
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  // console.log("admin layout", user?.role);
+  console.log("admin layout", localStorage.getItem('userRole'));
 
-  useEffect(() => {
-    try {
-      if (token) {
-        if (user?.role === "admin") {
-          // console.log(user?.role);
-          setIsLoading(false);
-        } else {
-          // console.log(user?.role);
-          // navigate("/client/home");
-        }
-      } else {
-        navigate("/adminlogin");
-      }
-    } catch (error) {
-      console.error("Error checking authentication:", error);
-      setIsLoading(false);
-    }
-  }, [user?.role]);
+  // useEffect(() => {
+  //   if(token){
+  //     const userRole = localStorage.getItem('userRole');
+  
+  //     if (userRole === 'admin') {
+  //       navigate('/admin/home');
+  //     }
+      
+
+  //   }else {
+  //     navigate('/adminlogin')
+  //    }
+  // }, [navigate]);
 
   const onLogout = async (ev) => {
     ev.preventDefault();
     try {
       await axios.post("/logout");
       saveToken(null);
+      localStorage.removeItem('userRole');
       navigate("/adminlogin");
     } catch (error) {
       console.error("Logout failed:", error);
@@ -54,6 +50,7 @@ function AdminLayout() {
   // console.log(user?.role);
   return (
     <div>
+      <button onClick={onLogout} className="bg-red-500 p-1">Logout</button>
       <div className="flex relative ">
         <div className="fixed right-4 bottom-4" style={{ zIndex: "1000" }}>
       

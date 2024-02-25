@@ -4,7 +4,7 @@ import { FiShoppingCart } from "react-icons/fi";
 import { RiNotification3Line } from "react-icons/ri";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { useGlobelContext } from "../../context/Context";
-import UserProfile from "./adminPanel/components/UserProfile";
+import UserProfile from "./adminPanel/components/AdminProfile";
 import Notification from "./adminPanel/components/Notification";
 import Cart from "./adminPanel/components/Cart";
 

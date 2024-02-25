@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import axios from "../../../../axios";
-import React, { useEffect, useState } from "react";
 import Table from "../components/Table";
 import { MdDelete } from "react-icons/md";
 import Header from "../components/Header";
+import { useEffect, useState } from "react";
 
 export default function MarkView() {
   const [loading, setLoading] = useState(true);
@@ -13,7 +13,7 @@ export default function MarkView() {
     {
       field: "icon",
       headerName: "Image",
-      width: 80,
+      width: 200,
       renderCell: (params) => (
         <div>
           <img
@@ -28,10 +28,10 @@ export default function MarkView() {
     {
       field: "name",
       headerName: "Nom",
-      width: 200,
+      width: 300,
     },
 
-    { field: "categorie_mere", headerName: "Catégorie mére", width: 130 },
+    
     {
       field: "etat",
       headerName: "État",
@@ -55,7 +55,7 @@ export default function MarkView() {
   const actionColumn = {
     field: "action",
     headerName: "Action",
-    width: 200,
+    width: 300,
     renderCell: (params) => {
       return (
         <div className="flex gap-3 ">
@@ -68,10 +68,11 @@ export default function MarkView() {
   };
 
   useEffect(() => {
-    axios.get(`getCategory`).then((res) => {
+    axios.get(`getMarks`).then((res) => {
       if (res.data.status === 200) {
-        console.log(res.data.categories);
-        setCategories(res.data.categories);
+       
+        // console.log(res.data);
+        setMarks(res.data.marks);
         setLoading(false);
       } else if (res.data.status === 400) {
         console.log("Warning", res.data.message, " ");
@@ -80,14 +81,14 @@ export default function MarkView() {
       }
     });
   }, []);
-
+console.log(marks);
   return (
     <div className="max-w-[90%] p-6  m-auto ">
-      <Header category="Page" title="Catégory" />
+      <Header category="Page" title="Mark" />
       <div className="relative   my-5   sm:rounded-lg ">
         <Table
-          loading={categories ? categories.length : 0}
-          rows={categories}
+          loading={marks ? marks.length : 0}
+          rows={marks}
           columns={columns}
           actionColumn={actionColumn}
         />

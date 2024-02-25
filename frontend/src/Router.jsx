@@ -2,7 +2,6 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import GuestLayout from "./components/GuestLayout.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import Home from "./pages/admin/Home.jsx";
-import Dashboardview from "./pages/admin/NavBar.jsx";
 import AdminLogin from "./pages/admin/adminAuth/AdminLogin.jsx";
 import Client from "./pages/admin/adminPanel/client/Client.jsx";
 import ClientDashBoard from "./pages/client-Side/pages/ClientDashBoard.jsx";
@@ -14,8 +13,10 @@ import ProductView from "./pages/admin/adminPanel/product/ProductDetails.jsx";
 import AdminLayout from "./components/AdminLayout.jsx";
 import ClientLayout from "./components/ClientLayout.jsx";
 import ViewCategory from "./pages/admin/adminPanel/category/ViewCategory.jsx";
-import ProductCardDetails from "./pages/client-Side/pages/productCardDetails.jsx";
+import ProductCardDetails from "./pages/client-Side/pages/ProductCardDetails.jsx";
 import ClientDetailsView from "./pages/admin/adminPanel/client/ClientDetailsView.jsx";
+import MarkView from "./pages/admin/adminPanel/mark/MarkView.jsx";
+import ShoppingCart from "./pages/client-Side/pages/ShoppingCart.jsx";
 
 const router = createBrowserRouter([
   {
@@ -64,6 +65,10 @@ const router = createBrowserRouter([
         path: "category",
         element: <ViewCategory />,
       },
+      {
+        path: "marks",
+        element: <MarkView />,
+      },
     ],
   },
 
@@ -77,7 +82,11 @@ const router = createBrowserRouter([
       },
       {
         path: "productCardDetails/:id",
-        element: <ProductCardDetails />,
+        element: <ProductCardDetails/>,
+      },
+      {
+        path: "shoppingCart",
+        element: <ShoppingCart/>,
       },
     ],
   },

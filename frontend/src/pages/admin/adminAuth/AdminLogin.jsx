@@ -27,9 +27,10 @@ const AdminLogin = () => {
       const userRole = response.data["user"].role.toString();
 
       if (response.status === 200 && userRole === "admin") {
-
+       
+        localStorage.setItem("userRole", userRole);
         saveToken(response.data.token);
-        console.log("admin login ", response.data?.user);
+        // console.log("admin login ", response.data?.user);
         
        
       } else {

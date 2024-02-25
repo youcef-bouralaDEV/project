@@ -1,96 +1,160 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { MdFavoriteBorder, MdOutlineArrowRightAlt } from "react-icons/md";
+import { useProductQuantity } from "../../../context/ProductQuantityContext";
+import axiosClient from "../../../axios";
+import Modal2 from "../../../modal/Modal2";
+
+const AddToCartButton = ({ id, quantity }) => {
+  const [loading, setLoading] = useState(false);
+
+  const addToCart = async () => {
+    try {
+      setLoading(true);
+
+      const response = await axiosClient.post('add-to-cart', {
+        product_id: id,
+        product_qty: quantity,
+      });
+
+      
+
+      // Handle success, e.g., show a success message or update the UI
+    } catch (error) {
+      console.error('Error:', error.message);
+      // Handle error, e.g., show an error message to the user
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <button onClick={addToCart} disabled={loading}>
+      {loading ? 'Adding to Cart...' : 'Add to Cart'}
+    </button>
+  );
+};
+
 
 export default function ProductCard({ product }) {
+  const { productQuantity,updateProductQuantity } = useProductQuantity();
+  const [open, setOpen] = useState(false);
+
   const [productUnit, setProductUnit] = useState(0);
-console.log(product.name);
+  
+  useEffect(() => {
+    setProductUnit(productQuantity[product.id] || 0);
+  }, [product.id, productQuantity]);
+
   const handleIncrement = () => {
-    setProductUnit((prevQuantity) => prevQuantity + 1);
+    setProductUnit((prevQuantity) => {
+      const newQuantity = prevQuantity + 1;
+      updateProductQuantity(product.id, newQuantity);
+      return newQuantity;
+    });
   };
 
   const handleDecrement = () => {
     if (productUnit > 1) {
-      setProductUnit((prevQuantity) => prevQuantity - 1);
+      setProductUnit((prevQuantity) => {
+        const newQuantity = prevQuantity - 1;
+        updateProductQuantity(product.id, newQuantity);
+        return newQuantity;
+      });
     }
   };
+
+ 
   const divisionResult = (productUnit / product.coulissage).toFixed(2);
-  
+  const etatColorClass =
+    product.etat === "Active"
+      ? "border-green-500 text-green-700 "
+      : "border-red-500 text-red-700";
+
   return (
     <div
       key={product.id}
-      className="relative  flex  w-[250px] max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md"
+      className="w-[290px] bg-white shadow  md:w-60 rounded  "
     >
-      <div className="relative w-full mx-3 mt-3  h-60 overflow-hidden rounded-xl">
-        <img
-          className="object-cover"
-          src={product.images}
-          alt="product image"
-        />
-        <span className="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">
-          39% OFF
-        </span>
-      </div>
+  <Modal2 open={open} setOpen={setOpen} message={"fff"}/>
 
-      <div className="mt-4 px-5 pb-5">
-        <a href="#">
-          <h5 className="text-xl tracking-tight text-slate-900">
-            {product.name}
-          </h5>
-        </a>
-        <div className="mt-2 mb-2 flex items-center justify-between">
-          <p>
-            <span className="text-3xl font-bold text-slate-900">
-              {product.prix}$
-            </span>
-            <span className="text-sm text-slate-900 line-through">$687</span>
-          </p>
+      <div
+        className="h-48 w-full bg-gray-200 flex flex-col justify-between p-4 bg-cover bg-center rounded"
+        style={{
+          backgroundImage:
+            "url('https://images.pexels.com/photos/7989741/pexels-photo-7989741.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940')",
+        }}
+      >
+        <div className="flex justify-between">
+          <button className="text-white hover:text-yellow-500 ">
+            <MdFavoriteBorder />
+          </button>
         </div>
-        <div className="flex mb-5 items-center font-bold text-green-600">
-          {product.etat_du_stock}
+        <div>
+          <span
+            className={`uppercase text-xs bg-green-50 p-1 font-medium select-none rounded ${etatColorClass}`}
+          >
+            {product.etat}
+          </span>
         </div>
-
-        <form className="max-w-xs mx-auto">
-          <div className="relative flex items-center max-w-[8rem]">
-            <button
-              type="button"
-              id="decrement-button"
-              onClick={handleIncrement}
-              className={`bg-gray-100 ${
-                productUnit >= product.quantity
-                  ? "opacity-50 cursor-not-allowed"
-                  : "dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200"
-              } border rounded-s-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none`}
-              disabled={productUnit >= product.quantity}
-            >
-              +
-            </button>
-            <input
-              type="text"
-              id="quantity-input"
-              value={productUnit}
-              className="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              readOnly
-            />
-            <button
-              type="button"
-              onClick={handleDecrement}
-              id="increment-button"
-              data-input-counter-increment="quantity-input"
-              className="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
-            >
-              -
-            </button>
-          </div>
-
-          <div className="flex gap-2">
-            {divisionResult}
-            <div>({product.coulissage}u)</div>
-          </div>
-        </form>
       </div>
-      <div className=" block w-fit text-right p-1 mb-5 bg-blue-500 ">
-        <Link to={"/client/productCardDetails/" + product.id}>Details</Link>
+      <div className="p-4 flex flex-col items-center">
+        <h1 className="text-gray-800 text-center mt-1 font-bold">
+          {product.name}
+        </h1>
+        <p className="text-center text-gray-800 mt-1"> {product.prix} DZD</p>
+        {/* <div className="inline-flex items-center mt-2">
+          <form className="max-w-xs mx-auto">
+            <div className="relative flex items-center max-w-[8rem]">
+              <button
+                type="button"
+                id="decrement-button"
+                onClick={handleIncrement}
+                className={`bg-gray-100 ${
+                  productUnit >= product.quantity
+                    ? "opacity-50 cursor-not-allowed"
+                    : "dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200"
+                } border rounded-s-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none`}
+                disabled={productUnit >= product.quantity}
+              >
+                +
+              </button>
+              <input
+                type="text"
+                id="quantity-input"
+                value={productUnit}
+                className="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                readOnly
+              />
+              <button
+                type="button"
+                onClick={handleDecrement}
+                id="increment-button"
+                data-input-counter-increment="quantity-input"
+                className="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
+              >
+                -
+              </button>
+            </div>
+
+            <div className="flex justify-center my-1">
+              {divisionResult}
+              <div>({product.coulissage}u)</div>
+            </div>
+          </form>
+        </div> */}
+           <button onClick={()=>setOpen(!open)}>
+        <AddToCartButton id={product.id} quantity={product.quantity} />
+          </button>
+        <button className="py-1 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 mt-2 w-full flex items-center justify-center">
+          <Link to={"/client/productCardDetails/" + product.id}>Details</Link>
+          <MdOutlineArrowRightAlt  />
+
+       
+        </button>
       </div>
     </div>
+
+   
   );
 }
