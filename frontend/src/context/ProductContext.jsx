@@ -1,3 +1,4 @@
+import { useParams } from "react-router-dom";
 import axios from "../axios";
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -16,6 +17,7 @@ export const ProductProvider = ({ children }) => {
   const [marks, setMarks] = useState([]);
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(2000);
+ 
 
   useEffect(() => {
     getCategories();
@@ -69,9 +71,9 @@ export const ProductProvider = ({ children }) => {
       const nameMatch =
         !searchName ||
         product.name.toLowerCase().includes(searchName.toLowerCase());
-      console.log("product.name:", product.name);
-      console.log("searchName:", searchName);
-      console.log("markMatch:", nameMatch);
+      // console.log("product.name:", product.name);
+      // console.log("searchName:", searchName);
+      // console.log("markMatch:", nameMatch);
 
       const etatMatch =
         !searchByEtat ||
@@ -105,6 +107,8 @@ export const ProductProvider = ({ children }) => {
     // console.log(filtered);
   };
 
+ 
+
   // console.log(filtredProducts);
   const clearFilters = () => {
     setSelectedCategory("");
@@ -120,7 +124,7 @@ export const ProductProvider = ({ children }) => {
     setLaoding(true);
     try {
       let response = await axios.get("/getProducts");
-      console.log(response.data);
+      // console.log(response.data);
       setProducts(response.data);
       setFiltredProducts(response.data);
       setLaoding(false);
@@ -167,6 +171,7 @@ export const ProductProvider = ({ children }) => {
         marks,
         minPrice,
         maxPrice,
+      
       }}
     >
       {children}

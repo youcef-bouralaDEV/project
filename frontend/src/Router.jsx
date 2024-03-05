@@ -17,6 +17,9 @@ import ProductCardDetails from "./pages/client-Side/pages/ProductCardDetails.jsx
 import ClientDetailsView from "./pages/admin/adminPanel/client/ClientDetailsView.jsx";
 import MarkView from "./pages/admin/adminPanel/mark/MarkView.jsx";
 import ShoppingCart from "./pages/client-Side/pages/ShoppingCart.jsx";
+import OrderPage from "./pages/client-Side/pages/OrderPage.jsx";
+import MyOrder from "./pages/client-Side/components/MyOrder.jsx";
+import OrderDetailsPage from "./pages/client-Side/components/order/OrderDetailsPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -87,6 +90,18 @@ const router = createBrowserRouter([
       {
         path: "shoppingCart",
         element: <ShoppingCart/>,
+      },
+      {
+        path: "ordersummery",
+        element: <OrderPage/>,
+      },
+      {
+        path: "myorders",
+        element: <MyOrder/>,
+      },
+      {
+        path: "order/:id",
+        element: <OrderDetailsPage/>,
       },
     ],
   },

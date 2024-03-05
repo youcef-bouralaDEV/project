@@ -27,17 +27,7 @@ function AdminLayout() {
   //    }
   // }, [navigate]);
 
-  const onLogout = async (ev) => {
-    ev.preventDefault();
-    try {
-      await axios.post("/logout");
-      saveToken(null);
-      localStorage.removeItem('userRole');
-      navigate("/adminlogin");
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
-  };
+ 
 
   if (isLoading) {
     return (
@@ -50,7 +40,7 @@ function AdminLayout() {
   // console.log(user?.role);
   return (
     <div>
-      <button onClick={onLogout} className="bg-red-500 p-1">Logout</button>
+    
       <div className="flex relative ">
         <div className="fixed right-4 bottom-4" style={{ zIndex: "1000" }}>
       

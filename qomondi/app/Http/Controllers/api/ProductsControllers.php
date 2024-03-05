@@ -53,10 +53,10 @@ class ProductsControllers extends Controller
 
         return response()->json(new ProductsResource($product));
     } catch (\Exception $error) {
-        return response()->json(['error' => $error->getMessage()], 500);
+            return response()->json(['error' => $error->getMessage()], 500);
     }
 }
-
+    
 
     public function deleteProduct($id)
     {

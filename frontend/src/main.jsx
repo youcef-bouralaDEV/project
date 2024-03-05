@@ -7,7 +7,7 @@ import { ProductProvider } from "./context/ProductContext.jsx";
 import { ProductQuantityProvider } from "./context/ProductQuantityContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+
     <AppProvider>
       <ProductProvider>
         <ProductQuantityProvider>
@@ -15,5 +15,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </ProductQuantityProvider>
       </ProductProvider>
     </AppProvider>
-  </React.StrictMode>
+  
 );

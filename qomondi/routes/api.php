@@ -1,13 +1,16 @@
 <?php
 
 use App\Http\Controllers\api\Cart;
+use App\Http\Controllers\api\CartController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\MarksController;
 use App\Http\Controllers\api\ClientsController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\api\OrderController;
 use App\Http\Controllers\api\ProductsControllers;
 use App\Http\Controllers\api\WilayaCommuneController;
+use App\Models\Order;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,39 +25,51 @@ use App\Http\Controllers\api\WilayaCommuneController;
 
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/logout', [UserController::class, 'logout']);
+  Route::post('/logout', [UserController::class, 'logout']);
 
-    Route::get('/GetUser', [ClientsController::class, 'GetUser']);
+  Route::get('/GetUser', [ClientsController::class, 'GetUser']);
 
-    Route::put('/updateClient/{id}', [ClientsController::class, 'update']);
-    Route::post('/CreateClient', [ClientsController::class, 'create']);
-    Route::get('/GetClients', [ClientsController::class, 'GetClients']);
-    Route::get('/GetClient/{id}', [ClientsController::class, 'GetClient']);
-    Route::delete('/deleteClient/{id}', [ClientsController::class, 'destroy']);
-    Route::put('/toggleClientState/{id}', [ClientsController::class, 'toggleClientState']);
+  Route::put('/updateClient/{id}', [ClientsController::class, 'update']);
+  Route::post('/CreateClient', [ClientsController::class, 'create']);
+  Route::get('/GetClients', [ClientsController::class, 'GetClients']);
+  Route::get('/GetClient/{id}', [ClientsController::class, 'GetClient']);
+  Route::delete('/deleteClient/{id}', [ClientsController::class, 'destroy']);
+  Route::put('/toggleClientState/{id}', [ClientsController::class, 'toggleClientState']);
 
-    Route::get('/getProduct/{id}', [ProductsControllers::class, 'getProduct']);
-    Route::get('/getProducts', [ProductsControllers::class, 'getProducts']);
-    Route::delete('/deleteProduct/{id}', [ProductsControllers::class, 'deleteProduct']);
-    Route::get('/viewProduct/{id}', [ProductsControllers::class, 'show']);
-    Route::post('/createProducts', [ProductsControllers::class, 'store']);
-    Route::put('/updateProduct/{id}', [ProductsControllers::class, 'updateProduct']);
+  Route::get('/getProduct/{id}', [ProductsControllers::class, 'getProduct']);
+  Route::get('/getProducts', [ProductsControllers::class, 'getProducts']);
+  Route::delete('/deleteProduct/{id}', [ProductsControllers::class, 'deleteProduct']);
+  Route::get('/viewProduct/{id}', [ProductsControllers::class, 'show']);
+  Route::post('/createProducts', [ProductsControllers::class, 'store']);
+  Route::put('/updateProduct/{id}', [ProductsControllers::class, 'updateProduct']);
 
-    //category routes
-    Route::get('/getCategories', [CategoryController::class, 'getCategories']);
-    Route::get('/getCategory', [CategoryController::class, 'getCategory']);
+  //category routes
+  Route::get('/getCategories', [CategoryController::class, 'getCategories']);
+  Route::get('/getCategory', [CategoryController::class, 'getCategory']);
 
-    //mark routes
-    Route::get('/getMarks', [MarksController::class, 'getMarks']);
+  //mark routes
+  Route::get('/getMarks', [MarksController::class, 'getMarks']);
 
-    //cart routes
-    Route::post('/add-to-cart', [Cart::class, 'addToCart']);
-    Route::get('/getCart', [Cart::class, 'getCartItems']);
-    
-    
+  //cart routes
+  Route::post('/add-to-cart', [CartController::class, 'addToCart']);
+  Route::get('/getCart', [CartController::class, 'getCartItems']);
+  Route::put('/updateProductQuantity/{productId}',[CartController::class, 'updateProductQuantity']);
+  Route::delete('/removeProductInCart/{productId}', [CartController::class, 'removeProductInCart']);
 
-    //willaya and commune routes
-    Route::get('/getWilayasAndCommunes', [WilayaCommuneController::class, 'getWilayasAndCommunes']);
+
+  //order routes
+  Route::post('/createOrder', [OrderController::class, 'store']);
+  Route::get('/getorders', [OrderController::class, 'getOrders']);
+  Route::get('/getOrderDetails/{OrderId}', [OrderController::class, 'getOrder']);
+
+Route::post('/cancel/{id}', [OrderController::class, 'cancelOrder']);
+Route::post('/recreate/{id}', [OrderController::class, 'recreateOrder']);
+
+
+
+
+  //willaya and commune routes
+  Route::get('/getWilayasAndCommunes', [WilayaCommuneController::class, 'getWilayasAndCommunes']);
 });
 
 Route::post('login', [UserController::class, "login"]);
@@ -72,10 +87,10 @@ Route::post('signup', [UserController::class, 'signup']);
 
 
 Route::options('{any}', function () {
-    return response()->json(['status' => 'ok'])
-        ->header('Access-Control-Allow-Origin', '*')
-        ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE , OPTIONS')
-        ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  return response()->json(['status' => 'ok'])
+    ->header('Access-Control-Allow-Origin', '*')
+    ->header('Access-Control-Allow-Methods', 'GET,POST, PUT, DELETE, OPTIONS')
+    ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 })->where('any', '.*');
 
 

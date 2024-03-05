@@ -13,9 +13,9 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Product extends Model implements HasMedia
 {
-    use HasFactory , InteractsWithMedia;
+    use HasFactory, InteractsWithMedia;
 
-  
+
 
     protected $fillable = [
         'name',
@@ -63,7 +63,14 @@ class Product extends Model implements HasMedia
     {
         return $this->belongsTo(Mark::class, 'mark_id');
     }
-    
-
    
+    public function carts()
+    {
+        return $this->belongsToMany(Cart::class , 'cart_id');
+    }
+
+    public function orderItem()
+    {
+        return $this->belongsToMany(OrderItem::class , 'order_item_id');
+    }
 }

@@ -5,6 +5,7 @@ import { RiNotification3Line } from "react-icons/ri";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { useGlobelContext } from "../../../context/Context";
 import { Link } from "react-router-dom";
+import ClientProfile from "./profil/ClientProfile";
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   <button
@@ -73,6 +74,8 @@ const Navbar = () => {
             dotColor="rgb(254, 201, 15)"
             color={currentColor}
             icon={<FiShoppingCart />}
+          customFunc={() => handleClick("cart")}
+
           />
         </Link>
 
@@ -92,9 +95,9 @@ const Navbar = () => {
           <MdKeyboardArrowDown className="text-gray-400 text-14" />
         </div>
 
-        {isClicked.cart && <Link to={"/shoppingCart"} />}
-        {/* {isClicked.notification && <Notification />}
-          {isClicked.userProfile && <ClientProfile />}  */}
+        {/* {isClicked.cart && <Link to={"/shoppingCart"} />} */}
+        {/* {isClicked.notification && <Notification />} */}
+         {isClicked.userProfile && <ClientProfile />} 
       </div>
     </div>
   );

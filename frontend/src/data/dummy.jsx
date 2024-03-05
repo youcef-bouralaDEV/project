@@ -28,6 +28,7 @@ import { MdDashboard, MdOutlineSupervisorAccount } from "react-icons/md";
 import { HiOutlineRefresh } from "react-icons/hi";
 import { TiTick } from "react-icons/ti";
 import { GrLocation } from "react-icons/gr";
+import { FaFileInvoice, FaRegStar, FaUser } from "react-icons/fa";
 
 export const gridOrderImage = (props) => (
   <div>
@@ -63,69 +64,8 @@ export const kanbanGrid = [
 
   { headerText: "Done", keyField: "Close", allowToggle: true },
 ];
-const gridEmployeeProfile = (props) => (
-  <div className="flex items-center gap-2">
-    <img
-      className="rounded-full w-10 h-10"
-      src={props.EmployeeImage}
-      alt="employee"
-    />
-    <p>{props.Name}</p>
-  </div>
-);
+ 
 
-const gridEmployeeCountry = (props) => (
-  <div className="flex items-center justify-center gap-2">
-    <GrLocation />
-    <span>{props.Country}</span>
-  </div>
-);
-export const EditorData = () => (
-  <div>
-    <h3>
-      Try React React has been designed from the start for gradual adoption, and
-      you can use as little or as much React as you need. Whether you want to
-      get a taste of React, add some interactivity to a simple HTML page, or
-      start a complex React-powered app, the path s in this section will help you
-      get started. Online Playgrounds If you’re interested in playing around
-      with React, you can use an online code playground. Try a Hello World
-      template on CodePen, CodeSandbox, or Stackblitz. If you prefer to use your
-      own text editor, you can also download this HTML file, edit it, and open
-      it from the local filesystem in your browser. It does a slow runtime code
-      transformation, so we’d only recommend using this for simple demos. Add
-      React to a Website You can add React to an HTML page in one minute. You
-      can then either gradually expand its presence, or keep it contained to a
-      few dynamic widgets. Create a New React App When starting a React project,
-      a simple HTML page with script tags might still be the best option. It
-      only takes a minute to set up! As your application grows, you might want
-      to consider a more integrated setup. There are several JavaScript
-      toolchains we recommend for larger applications. Each of them can work
-      with little to no configuration and lets you take full advantage of the
-      rich React ecosystem. Learn how. Learn React People come to React from
-      different backgrounds and with different learning styles. Whether you
-      prefer a more theoretical or a practical approach, we hope you’ll find
-      this section helpful. If you prefer to learn by doing, start with our
-      practical tutorial. If you prefer to learn concepts step by step, start
-      with our guide to main concepts. Like any unfamiliar technology, React
-      does have a learning curve. With practice and some patience, you will get
-      the hang of it. First Examples The React homepage contains a few small
-      React examples with a live editor. Even if you don’t know anything about
-      React yet, try changing their code and see how it affects the result.
-      React for Beginners If you feel that the React documentation goes at a
-      faster pace than you’re comfortable with, check out this overview of React
-      by Tania Rascia. It introduces the most important React concepts in a
-      detailed, beginner-friendly way. Once you’re done, give the documentation
-      another try! React for Designers If you’re coming from a design
-      background, these resources are a great place to get started. JavaScript
-      Resources The React documentation assumes some familiarity with
-      programming in the JavaScript language. You don’t have to be an expert,
-      but it’s harder to learn both React and JavaScript at the same time. We
-      recommend going through this JavaScript overview to check your knowledge
-      level. It will take you between 30 minutes and an hour but you will feel
-      more confident learning React.
-    </h3>
-  </div>
-);
 const customerGridImage = (props) => (
   <div className="image flex gap-4">
     <img
@@ -329,24 +269,6 @@ export const colorMappingData = [
   ["#FF4040"],
 ];
 
-export const rangeColorMapping = [
-  { label: "1°C to 10°C", start: "1", end: "10", colors: colorMappingData[1] },
-
-  {
-    label: "11°C to 20°C",
-    start: "11",
-    end: "20",
-    colors: colorMappingData[2],
-  },
-
-  {
-    label: "21°C to 30°C",
-    start: "21",
-    end: "30",
-    colors: colorMappingData[3],
-  },
-];
-
 export const ColorMappingPrimaryXAxis = {
   valueType: "Category",
   majorGridLines: { width: 0 },
@@ -398,94 +320,8 @@ export const LinePrimaryYAxis = {
   minorTickLines: { width: 0 },
 };
 
-export const customersGrid = [
-  { type: "checkbox", width: "50" },
-  {
-    headerText: "Name",
-    width: "150",
-    template: customerGridImage,
-    textAlign: "Center",
-  },
-  {
-    field: "ProjectName",
-    headerText: "Project Name",
-    width: "150",
-    textAlign: "Center",
-  },
-  {
-    field: "Status",
-    headerText: "Status",
-    width: "130",
-    format: "yMd",
-    textAlign: "Center",
-    template: customerGridStatus,
-  },
-  {
-    field: "Budget",
-    headerText: "Budget",
-    width: "100",
-    format: "yMd",
-    textAlign: "Center",
-  },
 
-  {
-    field: "Location",
-    headerText: "Location",
-    width: "150",
-    textAlign: "Center",
-  },
 
-  {
-    field: "CustomerID",
-    headerText: "Customer ID",
-    width: "120",
-    textAlign: "Center",
-    isPrimaryKey: true,
-  },
-];
-
-export const employeesGrid = [
-  {
-    headerText: "Employee",
-    width: "150",
-    template: gridEmployeeProfile,
-    textAlign: "Center",
-  },
-  { field: "Name", headerText: "", width: "0", textAlign: "Center" },
-  {
-    field: "Title",
-    headerText: "Designation",
-    width: "170",
-    textAlign: "Center",
-  },
-  {
-    headerText: "Country",
-    width: "120",
-    textAlign: "Center",
-    template: gridEmployeeCountry,
-  },
-
-  {
-    field: "HireDate",
-    headerText: "Hire Date",
-    width: "135",
-    format: "yMd",
-    textAlign: "Center",
-  },
-
-  {
-    field: "ReportsTo",
-    headerText: "Reports To",
-    width: "120",
-    textAlign: "Center",
-  },
-  {
-    field: "EmployeeID",
-    headerText: "Employee ID",
-    width: "125",
-    textAlign: "Center",
-  },
-];
 
 export const Admin_SideBar_links = [
   {
@@ -883,92 +719,44 @@ export const userProfileData = [
   },
 ];
 
-export const ordersGrid = [
+export const ClientProfileData = [
   {
-    field: "OrderID",
-    headerText: "Order ID",
-    width: "120",
-    textAlign: "Center",
+    icon: <BsCurrencyDollar />,
+    title: "Mes commandes",
+    desc: "Les List Des Commandes",
+    iconColor: "#03C9D7",
+    iconBg: "#E5FAFB",
+    link:"myorders"
   },
-
   {
-    field: "Location",
-    headerText: "Location",
-    width: "150",
-    textAlign: "Center",
+    icon: <FaFileInvoice />,
+    title: "Mes factures",
+    desc: "Factures de client ",
+    iconColor: "rgb(0, 194, 146)",
+    iconBg: "rgb(235, 250, 242)",
+    link:""
+
+  },
+  {
+    icon: <FaRegStar />,
+    title: "Mes favoris",
+    desc: "To-do and Daily Tasks",
+    iconColor: "rgb(255, 244, 229)",
+    iconBg: "rgb(254, 201, 15)",
+    link:""
+
+  },
+  {
+    icon: <FaUser />,
+    title: "Mon profil",
+    desc: "To-do and Daily Tasks",
+    iconColor: "rgb(255, 244, 229)",
+    iconBg: "rgb(254, 201, 15)",
+    link:""
+
   },
 ];
 
-export const customersData = [
-  {
-    id: 1001,
-    name: "Nirav Joshi",
-    CustomerEmail: "nirav@gmail.com",
-    CustomerImage: "../assets/skills-01.jpg",
-    ProjectName: "Hosting Press HTML",
-    Status: "Active",
-    StatusBg: "#8BE78B",
-    Weeks: "40",
-    Budget: "$2.4k",
-    Location: "India",
-  },
-  {
-    CustomerI: 1002,
-
-    CustomerName: "Sunil Joshi",
-    CustomerEmail: "sunil@gmail.com",
-    ProjectName: "Elite Admin",
-    Status: "Active",
-    CustomerImage: "../assets/skills-01.jpg",
-
-    StatusBg: "#8BE78B",
-    Weeks: "11",
-    Budget: "$3.9k",
-    Location: "India",
-  },
-  {
-    CustomerID: 1003,
-    CustomerName: "Andrew McDownland",
-    CustomerEmail: "andrew@gmail.com",
-    ProjectName: "Real Homes WP Theme",
-    Status: "Pending",
-    CustomerImage: "../assets/skills-01.jpg",
-    StatusBg: "#FEC90F",
-    Weeks: "19",
-    Budget: "$24.5k",
-    Location: "USA",
-  },
-];
-
-export const employeesData = [
-  {
-    EmployeeID: 1,
-    Name: "Nancy Davolio",
-    Title: "Sales Representative",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: "",
-  },
-  {
-    EmployeeID: 2,
-    Name: "Nasimiyu Danai",
-    Title: "Marketing Head",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: "",
-  },
-  {
-    EmployeeID: 3,
-    Name: "Iulia Albu",
-    Title: "HR",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: "",
-  },
-];
 
 export const lineChartData = [
   [
@@ -1064,24 +852,7 @@ export const pieChartData = [
   { x: "Insurance", y: 16, text: "16%" },
 ];
 
-export const contextMenuItems = [
-  "AutoFit",
-  "AutoFitAll",
-  "SortAscending",
-  "SortDescending",
-  "Copy",
-  "Edit",
-  "Delete",
-  "Save",
-  "Cancel",
-  "PdfExport",
-  "ExcelExport",
-  "CsvExport",
-  "FirstPage",
-  "PrevPage",
-  "LastPage",
-  "NextPage",
-];
+
 
 export const ecomPieChartData = [
   { x: "2018", y: 18, text: "35%" },

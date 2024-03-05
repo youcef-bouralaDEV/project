@@ -4,7 +4,8 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 const ProductQuantityContext = createContext();
 
 export const ProductQuantityProvider = ({ children }) => {
-  const [productQuantity, setProductQuantity] = useState(0);
+  const [productQuantity, setProductQuantity] = useState(1);
+ 
 
   useEffect(() => {
   
@@ -24,9 +25,10 @@ export const ProductQuantityProvider = ({ children }) => {
 
  
 
+
   return (
     <ProductQuantityContext.Provider
-      value={{ productQuantity, updateProductQuantity }}
+      value={{ productQuantity, updateProductQuantity  }}
     >
       {children}
     </ProductQuantityContext.Provider>

@@ -29,8 +29,8 @@ const ClientBreadcrumbs = () => {
     const homeBreadcrumb = { label: "Home", path: "/" };
     setBreadcrumbs([homeBreadcrumb, ...generatedBreadcrumbs]);
 
-    console.log(pathSegments);
-    console.log(generatedBreadcrumbs);
+    // console.log(pathSegments);
+    // console.log(generatedBreadcrumbs);
   }, [location.pathname]);
 
   // Check if the current route is the home page
@@ -53,7 +53,7 @@ const ClientBreadcrumbs = () => {
                     className="inline-flex items-center font-md  text-sm  text-gray-700 hover:text-orange-500 "
                   >
                     {index === breadcrumbs.length - 1 ? (
-                      <span>{breadcrumb.label}</span>
+                      <span className="text-md font-bold text-orange-500">{breadcrumb.label}</span>
                     ) : (
                       <>
                         <span>{breadcrumb.label}</span>

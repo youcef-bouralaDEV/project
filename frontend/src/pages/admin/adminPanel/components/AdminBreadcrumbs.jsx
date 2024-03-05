@@ -77,8 +77,8 @@ const AdminBreadcrumbs = () => {
     const homeBreadcrumb = { label: "Home", path: "/" };
     setBreadcrumbs([homeBreadcrumb, ...generatedBreadcrumbs]);
 
-    console.log(pathSegments);
-    console.log(generatedBreadcrumbs);
+    // console.log(pathSegments);
+    // console.log(generatedBreadcrumbs);
   }, [location.pathname]);
 
   // Check if the current route is the home page

@@ -9,7 +9,7 @@ export default function GuestLayout() {
 
   
 
-  console.log(user?.role);
+  // console.log(user?.role);
   if (token) {
 
     if(userRole === "admin")

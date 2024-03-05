@@ -9,11 +9,11 @@ const initialState = {
   cart: false,
   userProfile: false,
   notification: false,
+  clientProfile:false,
 };
 
 
 export const AppProvider = ({ children }) => {
-
   const [screenSize, setScreenSize] = useState(undefined);
   const [currentColor, setCurrentColor] = useState("#fe6d33");
   const [currentMode, setCurrentMode] = useState("Light");
@@ -88,7 +88,7 @@ export const AppProvider = ({ children }) => {
       localStorage.removeItem("Access");
     }
   };
-
+  
  
   // console.log(marks);
   return (
@@ -118,6 +118,7 @@ export const AppProvider = ({ children }) => {
         setColor,
         themeSettings,
         setThemeSettings,
+       
       }}
     >
       {children}

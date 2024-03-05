@@ -25,7 +25,7 @@ export default function ProductDetails() {
     }
   }, [id]);
 
-  console.log(SingleProduct); // This will still show the previous state
+  console.log(SingleProduct); 
 
   return (
     <div
@@ -68,7 +68,7 @@ export default function ProductDetails() {
           <span className="font-bold">quantité_minimal:</span>
           <p>{SingleProduct.quantité_minimal}</p>
 
-          {/* Add other details as needed */}
+      
         </div>
 
         <div className="border border-black p-4 mb-4">
